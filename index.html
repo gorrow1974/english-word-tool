@@ -1,64 +1,56 @@
 <!doctype html>
 <html lang="ja">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
-<title>Word World v21 - Logical Hacking</title>
-<style>
-  body{background:#020617; color:#fff; font-family:sans-serif; margin:0; padding:20px; text-align:center; min-height:100vh; box-sizing:border-box;}
-  #word-display{font-size:36px; font-weight:bold; margin:60px 0; color:#38bdf8;}
-  .logic-grid{display:grid; grid-template-columns: repeat(2, 1fr); gap:15px; margin-top:20px; max-width:500px; margin-left:auto; margin-right:auto;}
-  button{padding:20px; border-radius:16px; border:none; background:#1e293b; color:white; font-weight:bold; cursor:pointer; font-size:16px; box-shadow: 0 4px 6px rgba(0,0,0,0.3);}
-  button:active{transform:scale(0.95); background:#3b82f6;}
-  .export-area{margin-top:60px; padding-top:20px; border-top:1px solid #334155;}
-  #exportCsv{background:#10b981; width:100%; max-width:300px; padding:15px; font-size:18px;}
-</style>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>WW v21 Fast</title>
+    <style>
+        body { background: #000; color: #fff; font-family: sans-serif; margin: 0; padding: 10px; text-align: center; }
+        #word { font-size: 48px; font-weight: 800; margin: 40px 0; color: #fff; }
+        .grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; max-width: 600px; margin: 0 auto; }
+        button { padding: 30px 0; border: none; background: #222; color: #fff; border-radius: 4px; font-size: 14px; font-weight: bold; }
+        button:active { background: #fff; color: #000; }
+        #export { margin-top: 40px; color: #444; font-size: 10px; }
+    </style>
 </head>
 <body>
 
-<div id="word-display">create</div>
+<div id="word">create</div>
 
-<div class="logic-grid">
-  <button onclick="logLogic('VS')">VS (対比)</button>
-  <button onclick="logLogic('SO')">SO (結論)</button>
-  <button onclick="logLogic('DATA')">DATA (根拠)</button>
-  <button onclick="logLogic('EX')">EX (具体)</button>
-  <button onclick="logLogic('DECIDE')">DECIDE (判断)</button>
+<div class="grid">
+    <button onclick="record('VS')">VS</button>
+    <button onclick="record('SO')">SO</button>
+    <button onclick="record('DATA')">DATA</button>
+    <button onclick="record('EX')">EX</button>
+    <button onclick="record('DEC')">DEC</button>
 </div>
 
-<div class="export-area">
-  <button id="exportCsv">CSVログをダウンロード</button>
-</div>
+<div id="export" onclick="downloadCSV()">CSV EXPORT</div>
 
 <script>
-  let startTime = Date.now();
-  let logs = JSON.parse(localStorage.getItem('ww_logs') || '[]');
+    const words = ["create", "increase", "improve", "mean", "own", "include", "consider", "allow", "suggest", "produce", "decide", "offer", "require", "share", "store", "tend", "concern", "describe", "involve", "reduce", "design", "force", "correlation", "hypothesis", "paradox", "validity", "inference", "nature", "issue"];
+    let idx = 0;
+    let logs = JSON.parse(localStorage.getItem('ww_logs') || '[]');
+    let t0 = Date.now();
 
-  function logLogic(type) {
-    let reactionTime = Date.now() - startTime;
-    let entry = {
-      word: document.getElementById('word-display').innerText,
-      logic: type,
-      reaction_ms: reactionTime,
-      timestamp: new Date().toISOString()
-    };
-    logs.push(entry);
-    localStorage.setItem('ww_logs', JSON.stringify(logs));
-    
-    // 次の単語へ（簡易実装：リストを拡張してここを繋いでください）
-    alert('記録完了: ' + type + ' (' + reactionTime + 'ms)');
-    startTime = Date.now();
-  }
+    function record(type) {
+        let t1 = Date.now();
+        logs.push({w: words[idx], l: type, ms: t1 - t0});
+        localStorage.setItem('ww_logs', JSON.stringify(logs));
+        
+        idx = (idx + 1) % words.length;
+        document.getElementById('word').innerText = words[idx];
+        t0 = t1;
+    }
 
-  document.getElementById('exportCsv').onclick = function() {
-    let csv = "word,logic,reaction_ms,timestamp\n" + logs.map(l => `${l.word},${l.logic},${l.reaction_ms},${l.timestamp}`).join('\n');
-    let blob = new Blob([csv], {type: 'text/csv'});
-    let url = URL.createObjectURL(blob);
-    let a = document.createElement('a');
-    a.href = url;
-    a.download = 'ww_logs.csv';
-    a.click();
-  };
+    function downloadCSV() {
+        let csv = "word,logic,ms\n" + logs.map(l => `${l.w},${l.l},${l.ms}`).join('\n');
+        let blob = new Blob([csv], {type: 'text/csv'});
+        let a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'logs.csv';
+        a.click();
+    }
 </script>
 </body>
 </html>
