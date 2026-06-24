@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Word World v21 Prototype</title>
+<title>Word World v21 Prototype Lv01 3sec</title>
 <style>
 *{box-sizing:border-box}
 :root{--bg:#f6faf4;--green:#174a2b;--navy:#07345b;--orange:#fb7c13;--line:#dce7da}
@@ -52,7 +52,7 @@ body{margin:0;background:var(--bg);color:#102016;font-family:system-ui,-apple-sy
 <body>
 <div class="app">
   <div class="top">
-    <div class="logo">🌏 Word World<small>v21 / Lv01・Lv02・Lv02.5</small></div>
+    <div class="logo">🌏 Word World<small>v21 / Lv01 3秒ゲージ・Lv02・Lv02.5</small></div>
     <div class="modePill" id="modePill">Lv01</div>
   </div>
   <section class="hero">
@@ -93,6 +93,7 @@ body{margin:0;background:var(--bg);color:#102016;font-family:system-ui,-apple-sy
 <div class="footer"><div class="nav"><button class="secondary" id="prev">前へ</button><button class="secondary" id="reset">リセット</button><button class="primary" id="next">次へ</button></div></div>
 <script>
 let DATA,items=[],groups=[],logs=[],idx=0,mode=1,timer=null,t0=0,limit=15,selected=new Set(),fadeStage=0;
+const MODE_LIMITS={1:3,2:15,25:15};
 const E=x=>document.getElementById(x);
 fetch('data.json',{cache:'no-store'}).then(r=>r.json()).then(d=>{DATA=d;items=d.items;groups=d.uiGroups;logs=JSON.parse(localStorage.ww21logs||'[]');idx=Number(localStorage.ww21idx||0);mode=Number(localStorage.ww21mode||1);bind();render();});
 function bind(){
@@ -106,7 +107,7 @@ function render(){
  const label=mode===25?'Lv02.5':'Lv0'+mode;
  E('modePill').textContent=label;E('modeDash').textContent=label;E('pos').textContent=(idx%items.length+1)+'/'+items.length;
  E('meta').innerHTML='<span class="pill">'+it.id+'</span><span class="pill">'+label+'</span>';
- if(mode===1){E('heroTitle').textContent='Lv01：語彙認識';E('heroText').textContent='知ってる / 知らないを軽く押す。';E('prompt').className='prompt';E('prompt').textContent=it.surface;E('note').textContent='見た瞬間に反応。';drawLv1();}
+ if(mode===1){E('heroTitle').textContent='Lv01：語彙認識';E('heroText').textContent='3秒以内に、知ってる / 知らないを軽く押す。';E('prompt').className='prompt';E('prompt').textContent=it.surface;E('note').textContent='3秒以内。見た瞬間に反応。';drawLv1();}
  if(mode===2){E('heroTitle').textContent='Lv02：論理トリガー即時検知';E('heroText').textContent='この語が呼び出す構造を7分類から選ぶ。';E('prompt').className='prompt';E('prompt').textContent=it.surface;E('note').textContent='正解カテゴリを選ぶ。';drawGroupButtons(answerLv2);}
  if(mode===25){E('heroTitle').textContent='Lv02.5：フェーディング訓練';E('heroText').textContent='シグナルが薄くなる / 消える状態でも構造を読む。';E('prompt').className='prompt context';E('prompt').innerHTML=getFadingText(it);E('note').textContent='単語ではなく文脈から選ぶ。';drawGroupButtons(answerLv25);}
  dash();start();
@@ -126,10 +127,10 @@ function drawGroupButtons(handler){
  groups.forEach(g=>{let b=document.createElement('button');b.className='btn groupBtn';b.innerHTML='<b>'+g.label+'</b><br><small>'+g.jp+'</small>';b.onclick=()=>{if(selected.has(g.id)){selected.delete(g.id);b.classList.remove('sel')}else{selected.add(g.id);b.classList.add('sel')}};E('actions').appendChild(b)});
  let ok=document.createElement('button');ok.className='btn check';ok.textContent='OK';ok.onclick=handler;E('actions').appendChild(ok);
 }
-function start(){if(timer)clearInterval(timer);t0=Date.now();timer=setInterval(()=>{let s=(Date.now()-t0)/1000,r=Math.max(0,limit-s),p=Math.max(0,r/limit*100);E('remain').textContent=r.toFixed(1);E('bar').style.width=p+'%';E('bar').style.background=p>50?'#fb7c13':p>20?'#facc15':'#ef4444';if(r<=0)clearInterval(timer)},100)}
+function start(){if(timer)clearInterval(timer);limit=MODE_LIMITS[mode]||15;E('remain').textContent=limit.toFixed(1);t0=Date.now();timer=setInterval(()=>{let s=(Date.now()-t0)/1000,r=Math.max(0,limit-s),p=Math.max(0,r/limit*100);E('remain').textContent=r.toFixed(1);E('bar').style.width=p+'%';E('bar').style.background=p>50?'#fb7c13':p>20?'#facc15':'#ef4444';if(r<=0)clearInterval(timer)},100)}
 function sec(){let s=(Date.now()-t0)/1000;if(timer)clearInterval(timer);return +s.toFixed(2)}
 function setEq(a,b){return a.length===b.length&&a.every(x=>b.includes(x))}
-function answerLv1(){const it=current(),t=sec();logs.push({mode:'Lv01',itemId:it.id,response:arguments[0],responseTimeSec:t,timestamp:new Date().toISOString()});save();E('note').textContent='記録しました。';setTimeout(next,320);dash();}
+function answerLv1(){const it=current(),t=sec();logs.push({mode:'Lv01',itemId:it.id,response:arguments[0],pass:(arguments[0]==='known'&&t<=limit),responseTimeSec:t,timestamp:new Date().toISOString()});save();E('note').textContent='記録しました。';setTimeout(next,320);dash();}
 function showAnswer(ok){
  const it=current();
  E('answerTitle').textContent='正解：'+it.group.join(' / ')+'　詳細：'+it.tags.join('・');
