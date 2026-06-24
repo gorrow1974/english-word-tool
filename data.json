@@ -3,44 +3,37 @@
     {
       "id": "WHAT",
       "label": "WHAT",
-      "jp": "定義・説明",
-      "hint": "これは何？"
+      "jp": "定義・説明"
     },
     {
       "id": "VS",
       "label": "VS",
-      "jp": "比較・対比",
-      "hint": "AとBを比べる"
+      "jp": "比較・対比"
     },
     {
       "id": "WHY",
       "label": "WHY",
-      "jp": "理由・原因",
-      "hint": "なぜ？"
+      "jp": "理由・原因"
     },
     {
       "id": "SO",
       "label": "SO",
-      "jp": "結果・結論",
-      "hint": "だから？"
+      "jp": "結果・結論"
     },
     {
       "id": "EX",
       "label": "EX",
-      "jp": "具体例・補強",
-      "hint": "たとえば"
+      "jp": "具体例・補強"
     },
     {
       "id": "DATA",
       "label": "DATA",
-      "jp": "根拠・データ",
-      "hint": "ほんと？"
+      "jp": "根拠・データ"
     },
     {
       "id": "DECIDE",
       "label": "DECIDE",
-      "jp": "判断・提案",
-      "hint": "どうする？"
+      "jp": "判断・提案"
     }
   ],
   "items": [
