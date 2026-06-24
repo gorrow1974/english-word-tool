@@ -1,0 +1,163 @@
+{
+  "uiGroups": [
+    {
+      "id": "WHAT",
+      "label": "WHAT",
+      "jp": "定義・説明",
+      "hint": "これは何？"
+    },
+    {
+      "id": "VS",
+      "label": "VS",
+      "jp": "比較・対比",
+      "hint": "AとBを比べる"
+    },
+    {
+      "id": "WHY",
+      "label": "WHY",
+      "jp": "理由・原因",
+      "hint": "なぜ？"
+    },
+    {
+      "id": "SO",
+      "label": "SO",
+      "jp": "結果・結論",
+      "hint": "だから？"
+    },
+    {
+      "id": "EX",
+      "label": "EX",
+      "jp": "具体例・補強",
+      "hint": "たとえば"
+    },
+    {
+      "id": "DATA",
+      "label": "DATA",
+      "jp": "根拠・データ",
+      "hint": "ほんと？"
+    },
+    {
+      "id": "DECIDE",
+      "label": "DECIDE",
+      "jp": "判断・提案",
+      "hint": "どうする？"
+    }
+  ],
+  "items": [
+    {
+      "id": "WW0001",
+      "surface": "however",
+      "group": [
+        "VS"
+      ],
+      "tags": [
+        "対比",
+        "比較"
+      ],
+      "example": "AI can improve productivity. However, it may create new risks.",
+      "arrow": "benefit ⇔ risk",
+      "fadingVisible": "AI can improve productivity. However, it may create new risks.",
+      "fadingFaint": "AI can improve productivity. (however) it may create new risks.",
+      "fadingHidden": "AI can improve productivity. It may create new risks."
+    },
+    {
+      "id": "WW0002",
+      "surface": "therefore",
+      "group": [
+        "SO"
+      ],
+      "tags": [
+        "結論",
+        "結果",
+        "因果"
+      ],
+      "example": "Sleep improves memory. Therefore, students should value sleep.",
+      "arrow": "fact → conclusion",
+      "fadingVisible": "Sleep improves memory. Therefore, students should value sleep.",
+      "fadingFaint": "Sleep improves memory. (therefore) students should value sleep.",
+      "fadingHidden": "Sleep improves memory. Students should value sleep."
+    },
+    {
+      "id": "WW0003",
+      "surface": "because",
+      "group": [
+        "WHY"
+      ],
+      "tags": [
+        "理由",
+        "原因",
+        "因果"
+      ],
+      "example": "She stayed home because she was sick.",
+      "arrow": "reason → action",
+      "fadingVisible": "She stayed home because she was sick.",
+      "fadingFaint": "She stayed home (because) she was sick.",
+      "fadingHidden": "She was sick. She stayed home."
+    },
+    {
+      "id": "WW0004",
+      "surface": "for example",
+      "group": [
+        "EX"
+      ],
+      "tags": [
+        "具体例",
+        "補強"
+      ],
+      "example": "Many animals migrate. For example, some birds travel thousands of kilometers.",
+      "arrow": "claim → example",
+      "fadingVisible": "Many animals migrate. For example, some birds travel thousands of kilometers.",
+      "fadingFaint": "Many animals migrate. (for example) some birds travel thousands of kilometers.",
+      "fadingHidden": "Many animals migrate. Some birds travel thousands of kilometers."
+    },
+    {
+      "id": "WW0005",
+      "surface": "according to",
+      "group": [
+        "DATA"
+      ],
+      "tags": [
+        "引用",
+        "根拠",
+        "データ"
+      ],
+      "example": "According to the report, renewable energy use is increasing.",
+      "arrow": "source → claim",
+      "fadingVisible": "According to the report, renewable energy use is increasing.",
+      "fadingFaint": "(According to the report), renewable energy use is increasing.",
+      "fadingHidden": "The report says renewable energy use is increasing."
+    },
+    {
+      "id": "WW0006",
+      "surface": "consider",
+      "group": [
+        "DECIDE"
+      ],
+      "tags": [
+        "判断",
+        "検討"
+      ],
+      "example": "We need to consider both the benefits and the risks.",
+      "arrow": "benefits ⇔ risks → judgment",
+      "fadingVisible": "We need to consider both the benefits and the risks.",
+      "fadingFaint": "We need to (consider) both the benefits and the risks.",
+      "fadingHidden": "There are benefits and risks. We need to make a judgment."
+    },
+    {
+      "id": "WW0007",
+      "surface": "define",
+      "group": [
+        "WHAT"
+      ],
+      "tags": [
+        "定義",
+        "説明"
+      ],
+      "example": "Scientists define biodiversity as the variety of life in an ecosystem.",
+      "arrow": "term → meaning",
+      "fadingVisible": "Scientists define biodiversity as the variety of life in an ecosystem.",
+      "fadingFaint": "Scientists (define) biodiversity as the variety of life in an ecosystem.",
+      "fadingHidden": "Biodiversity means the variety of life in an ecosystem."
+    }
+  ]
+}

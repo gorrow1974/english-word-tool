@@ -1,34 +1,149 @@
 <!doctype html>
-<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"><title>CLES Chunk MVP v0.2</title>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Word World v21 Prototype</title>
 <style>
-:root{--bg:#0f172a;--card:#ffffff;--ink:#111827;--muted:#64748b;--accent:#2563eb;--ok:#16a34a;--ng:#dc2626;--soft:#f8fafc;--line:#e5e7eb;}
-*{box-sizing:border-box} body{margin:0;font-family:system-ui,-apple-system,'Segoe UI',sans-serif;background:var(--bg);color:#fff} header{position:sticky;top:0;background:#111827;padding:10px 12px;z-index:5;border-bottom:1px solid #334155} h1{font-size:18px;margin:0}.tabs{display:flex;gap:6px;margin-top:8px;overflow:auto}.tab{border:1px solid #475569;background:#1e293b;color:#fff;border-radius:999px;padding:8px 12px;font-weight:700;white-space:nowrap}.tab.active{background:#facc15;color:#111827}.wrap{padding:12px;max-width:760px;margin:auto}.panel{display:none}.panel.active{display:block}.card{background:var(--card);color:var(--ink);border-radius:18px;padding:18px;box-shadow:0 10px 25px rgba(0,0,0,.25);min-height:320px}.meta{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}.badge{font-size:12px;border-radius:999px;background:#e0f2fe;color:#075985;padding:5px 9px;font-weight:700}.style-キース{background:#fef3c7;color:#92400e}.style-マンボー{background:#dbeafe;color:#1e40af}.style-カオティック{background:#fee2e2;color:#991b1b}.chunk{font-size:36px;font-weight:900;line-height:1.1;margin:20px 0}.meaning{font-size:24px;font-weight:800;color:#0f766e;margin:8px 0}.pattern{font-family:ui-monospace,monospace;background:#f1f5f9;padding:10px;border-radius:10px;margin:10px 0}.visual{border:2px dashed #cbd5e1;border-radius:14px;background:#f8fafc;padding:18px;margin:12px 0;font-size:18px;line-height:1.6}.example{font-size:17px;border-left:5px solid #60a5fa;padding-left:10px;margin:12px 0}.choices{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}.choice{border:0;border-radius:14px;background:#e5e7eb;color:#111827;font-size:18px;font-weight:900;padding:16px}.choice:active{transform:scale(.98)}.bar{display:flex;gap:8px;margin-top:14px}.btn{border:0;border-radius:12px;padding:12px 14px;font-weight:800;background:#2563eb;color:white}.btn.secondary{background:#475569}.btn.warn{background:#f59e0b;color:#111827}.btn.ok{background:#16a34a}.result{font-weight:900;font-size:20px;margin-top:12px}.hidden{display:none}.list{display:grid;gap:10px}.item{background:#fff;color:#111827;border-radius:14px;padding:12px}.hltext{background:#fff;color:#111827;border-radius:16px;padding:18px;font-size:19px;line-height:2}.hl{background:#fef08a;border-radius:8px;padding:2px 5px;font-weight:900;color:#1e3a8a;cursor:pointer}.modal{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;align-items:center;justify-content:center;padding:16px;z-index:10}.modal.show{display:flex}.modalbox{background:#fff;color:#111827;border-radius:18px;padding:18px;max-width:520px;width:100%}.stats{display:grid;gap:8px}.statrow{display:grid;grid-template-columns:140px 1fr;gap:8px;align-items:center;background:#fff;color:#111827;padding:10px;border-radius:12px}.meter{height:14px;background:#e5e7eb;border-radius:999px;overflow:hidden}.meter>div{height:100%;background:#22c55e}.small{font-size:12px;color:#64748b}.illobox{font-size:42px;display:flex;align-items:center;gap:10px}.arrow{font-size:30px;color:#f59e0b;font-weight:900}.footer{opacity:.75;text-align:center;font-size:12px;margin:20px 0}
-</style></head><body>
-<header><h1>CLES Chunk MVP v0.2</h1><div class="tabs"><button class="tab active" onclick="showTab('card')">カード</button><button class="tab" onclick="showTab('highlight')">ハイライト英文</button><button class="tab" onclick="showTab('library')">50チャンク</button><button class="tab" onclick="showTab('stats')">ログ</button></div></header>
-<div class="wrap">
-<section id="card" class="panel active"><div class="card"><div class="meta"><span id="cat" class="badge"></span><span id="style" class="badge"></span><span id="tag" class="badge"></span></div><div class="chunk" id="chunk"></div><div class="small">意味が出たら「知っている」。出なければ「知らない／分からない」。どちらでも答えは表示されます。</div><div id="answer" class="hidden"><div class="meaning" id="jp"></div><div class="pattern" id="pattern"></div><div class="visual"><div class="illobox" id="visual"></div></div><div class="example" id="example"></div></div><div class="choices"><button class="choice" onclick="answer('know')">知っている</button><button class="choice" onclick="answer('ng')">知らない／分からない</button></div><div class="result" id="result"></div><div class="bar"><button class="btn" onclick="nextCard()">次へ</button><button class="btn secondary" onclick="toggleMode()" id="modeBtn">ランダム</button><button class="btn warn" onclick="downloadCSV()">CSV</button></div></div></section>
-<section id="highlight" class="panel"><div class="hltext" id="hltext"></div><div class="footer">黄色のチャンクをタップすると意味が出ます。</div></section>
-<section id="library" class="panel"><div class="list" id="lib"></div></section>
-<section id="stats" class="panel"><div class="bar"><button class="btn warn" onclick="downloadCSV()">CSV出力</button><button class="btn secondary" onclick="clearLogs()">ログ削除</button></div><div class="stats" id="statsbox"></div></section>
-</div><div class="modal" id="modal" onclick="closeModal(event)"><div class="modalbox"><div class="meta"><span id="mcat" class="badge"></span><span id="mstyle" class="badge"></span></div><div class="chunk" id="mchunk"></div><div class="meaning" id="mjp"></div><div class="pattern" id="mpattern"></div><div class="visual"><div class="illobox" id="mvisual"></div></div><div class="example" id="mexample"></div><button class="btn" onclick="document.getElementById('modal').classList.remove('show')">閉じる</button></div></div>
+*{box-sizing:border-box}
+:root{--bg:#f6faf4;--green:#174a2b;--navy:#07345b;--orange:#fb7c13;--line:#dce7da}
+body{margin:0;background:var(--bg);color:#102016;font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
+.app{max-width:1080px;margin:auto;padding:14px 10px 96px}
+.top{display:flex;justify-content:space-between;gap:10px;align-items:center}
+.logo{font-size:28px;font-weight:1000;color:var(--green);line-height:1}
+.logo small{display:block;font-size:13px;color:#64748b;margin-top:4px}
+.modePill{background:#fff;border:1px solid var(--line);border-radius:999px;padding:8px 12px;font-weight:1000;color:#174a2b;box-shadow:0 8px 18px #0001}
+.hero{background:linear-gradient(135deg,#10466f,#062d50);color:white;border-radius:22px;padding:14px 16px;margin:12px 0}
+.hero h1{margin:0;font-size:22px}.hero p{margin:6px 0 0;font-weight:800;font-size:14px}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0}
+.step{border:0;border-radius:14px;background:#e5e7eb;padding:10px;font-weight:1000;color:#64748b}
+.step.active{background:var(--orange);color:white}
+.grid{display:grid;grid-template-columns:42% 58%;gap:10px;align-items:stretch}
+.card{background:#fff;border:1px solid var(--line);border-radius:22px;padding:16px;box-shadow:0 10px 28px #00000010}
+.meta{min-height:28px}.pill{display:inline-block;border-radius:999px;background:#e9f7ec;color:#166534;padding:6px 10px;font-weight:1000;font-size:12px;margin:2px}
+.prompt{font-size:42px;font-weight:1000;text-align:center;color:#0f3d25;margin:34px 0 24px;line-height:1.08;letter-spacing:-.035em;white-space:pre-line}
+.prompt.context{font-size:24px;text-align:left;letter-spacing:0;line-height:1.4;margin:24px 0}
+.faint{opacity:.28}
+.timer{background:#f8fafc;border:1px solid #dbe3df;border-radius:16px;padding:9px;margin-top:10px}
+.timerTop{display:flex;justify-content:space-between;align-items:center;font-weight:1000;font-size:13px}
+.timerTop b{font-size:20px;color:var(--orange)}
+.barOut{height:8px;background:#e5e7eb;border-radius:999px;overflow:hidden;margin-top:7px}
+.bar{height:100%;width:100%;background:var(--orange)}
+.actions{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;align-content:center}
+.btn{border:2px solid #d8e7f7;border-radius:18px;background:#f8fbff;padding:14px 8px;font-size:16px;font-weight:1000;text-align:center;cursor:pointer}
+.known{background:#dcfce7;border-color:#22c55e;color:#166534;font-size:22px;padding:28px 8px}
+.unknown{background:#fee2e2;border-color:#ef4444;color:#991b1b;font-size:22px;padding:28px 8px}
+.groupBtn.sel{background:#dbeafe;border-color:#3b82f6;color:#1d4ed8}
+.check{grid-column:1/-1;background:var(--green);color:white}
+.note{background:#fff8e7;border:2px solid #f2c878;border-radius:16px;padding:11px;font-weight:900;margin-top:12px;min-height:46px;font-size:14px}
+.answerPanel{display:none;margin-top:12px;border-radius:18px;border:2px solid #cfe8d2;background:#f8fff9;padding:13px}
+.answerPanel.show{display:block}
+.answerTitle{font-weight:1000;color:#166534;margin-bottom:8px}
+.sample{background:white;border-radius:12px;padding:10px;margin:8px 0;font-weight:800;line-height:1.45}
+.arrow{white-space:pre-line;text-align:center;font-weight:1000;font-size:18px;line-height:1.35;color:#0f3d25}
+.dash{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;background:var(--navy);color:white;border-radius:17px;padding:12px;margin-top:12px}
+.big{font-size:23px;font-weight:1000}.lbl{font-size:11px;color:#d5e9f7;font-weight:900}
+.footer{position:fixed;bottom:0;left:0;right:0;background:linear-gradient(transparent,var(--bg) 25%);padding:26px 12px 10px}
+.nav{max-width:1080px;margin:auto;display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.nav button{border:0;border-radius:20px;padding:13px;font-weight:1000;font-size:15px}.secondary{background:#e5e7eb}.primary{background:var(--green);color:white}
+@media(max-width:820px){.grid{grid-template-columns:43% 57%;gap:8px}.card{padding:12px;border-radius:18px}.prompt{font-size:28px;margin:24px 0 18px}.prompt.context{font-size:17px}.actions{grid-template-columns:1fr 1fr;gap:7px}.btn{font-size:13px;padding:10px 5px}.known,.unknown{font-size:16px;padding:22px 6px}.timerTop{font-size:12px}.timerTop b{font-size:16px}.dash{grid-template-columns:repeat(4,1fr);gap:5px;padding:9px}.big{font-size:17px}.lbl{font-size:10px}.hero h1{font-size:18px}.arrow{font-size:15px}.sample{font-size:13px}.steps{grid-template-columns:repeat(3,1fr)}.step{font-size:12px;padding:8px 4px}.nav{grid-template-columns:1fr 1fr 1fr}}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="top">
+    <div class="logo">🌏 Word World<small>v21 / Lv01・Lv02・Lv02.5</small></div>
+    <div class="modePill" id="modePill">Lv01</div>
+  </div>
+  <section class="hero">
+    <h1 id="heroTitle">Lv01：語彙認識</h1>
+    <p id="heroText">まずは知ってる / 知らない。次に論理トリガーを検知する。</p>
+  </section>
+
+  <div class="steps">
+    <button class="step active" data-mode="1">Lv01</button>
+    <button class="step" data-mode="2">Lv02</button>
+    <button class="step" data-mode="25">Lv02.5</button>
+  </div>
+
+  <div class="grid">
+    <section class="card">
+      <div class="meta" id="meta"></div>
+      <div class="prompt" id="prompt">Loading...</div>
+      <div class="timer"><div class="timerTop"><span>認識時間</span><span><b id="remain">15.0</b> 秒</span></div><div class="barOut"><div class="bar" id="bar"></div></div></div>
+    </section>
+    <section class="card">
+      <div class="actions" id="actions"></div>
+      <div class="note" id="note">見た瞬間に反応。</div>
+      <div class="answerPanel" id="answerPanel">
+        <div class="answerTitle" id="answerTitle"></div>
+        <div class="sample" id="sample"></div>
+        <div class="arrow" id="arrow"></div>
+      </div>
+    </section>
+  </div>
+
+  <div class="dash">
+    <div><div class="big" id="modeDash">Lv01</div><div class="lbl">現在</div></div>
+    <div><div class="big" id="pos">1/7</div><div class="lbl">位置</div></div>
+    <div><div class="big" id="rate">0%</div><div class="lbl">通過率</div></div>
+    <div><div class="big" id="attempts">0</div><div class="lbl">試行</div></div>
+  </div>
+</div>
+<div class="footer"><div class="nav"><button class="secondary" id="prev">前へ</button><button class="secondary" id="reset">リセット</button><button class="primary" id="next">次へ</button></div></div>
 <script>
-const CHUNKS = [{"id": 1, "chunk": "make a decision", "jp": "決定する", "pattern": "make + decision", "example": "We need to make a decision today.", "category": "基本動詞ハブ", "style": "キース", "visual": "決める動作を作る", "tag": "make"}, {"id": 2, "chunk": "make progress", "jp": "進歩する", "pattern": "make + progress", "example": "We are making progress.", "category": "基本動詞ハブ", "style": "キース", "visual": "前へ進む状態を作る", "tag": "make"}, {"id": 3, "chunk": "make sense", "jp": "意味が通る", "pattern": "make + sense", "example": "Your idea makes sense.", "category": "基本動詞ハブ", "style": "キース", "visual": "頭の中で意味がつながる", "tag": "make"}, {"id": 4, "chunk": "make it possible", "jp": "可能にする", "pattern": "make + it + possible", "example": "Technology makes it possible.", "category": "基本動詞ハブ", "style": "キース", "visual": "できる状態を作る", "tag": "make"}, {"id": 5, "chunk": "take action", "jp": "行動を起こす", "pattern": "take + action", "example": "We must take action now.", "category": "基本動詞ハブ", "style": "キース", "visual": "行動を手に取って始める", "tag": "take"}, {"id": 6, "chunk": "take advantage of", "jp": "利用する", "pattern": "take + advantage + of X", "example": "He took advantage of the chance.", "category": "基本動詞ハブ", "style": "キース", "visual": "チャンスをつかんで使う", "tag": "take"}, {"id": 7, "chunk": "take into account", "jp": "考慮に入れる", "pattern": "take + X + into account", "example": "We must take the cost into account.", "category": "基本動詞ハブ", "style": "キース", "visual": "判断の中に条件を入れる", "tag": "take"}, {"id": 8, "chunk": "take it for granted", "jp": "当然だと思う", "pattern": "take + it + for granted", "example": "Do not take it for granted.", "category": "基本動詞ハブ", "style": "キース", "visual": "疑わず当然扱いする", "tag": "take"}, {"id": 9, "chunk": "get along with", "jp": "うまくやっていく", "pattern": "get + along + with X", "example": "I get along with my classmates.", "category": "基本動詞ハブ", "style": "キース", "visual": "人と同じ方向へ進む", "tag": "get"}, {"id": 10, "chunk": "get rid of", "jp": "取り除く", "pattern": "get + rid + of X", "example": "We should get rid of waste.", "category": "基本動詞ハブ", "style": "キース", "visual": "邪魔なものを外へ出す", "tag": "get"}, {"id": 11, "chunk": "get used to", "jp": "慣れる", "pattern": "get + used + to X", "example": "I got used to speaking English.", "category": "基本動詞ハブ", "style": "キース", "visual": "だんだん普通になる", "tag": "get"}, {"id": 12, "chunk": "get involved in", "jp": "関わる", "pattern": "get + involved + in X", "example": "She got involved in the project.", "category": "基本動詞ハブ", "style": "キース", "visual": "物事の中に入る", "tag": "get"}, {"id": 13, "chunk": "have an impact on", "jp": "影響を与える", "pattern": "have + impact + on X", "example": "This will have an impact on our life.", "category": "基本動詞ハブ", "style": "キース", "visual": "AがBに力を与える", "tag": "have"}, {"id": 14, "chunk": "have difficulty in", "jp": "〜するのに苦労する", "pattern": "have + difficulty + in Ving", "example": "I have difficulty in understanding it.", "category": "基本動詞ハブ", "style": "キース", "visual": "行動の前に困難を持つ", "tag": "have"}, {"id": 15, "chunk": "have access to", "jp": "利用できる", "pattern": "have + access + to X", "example": "Students have access to the library.", "category": "基本動詞ハブ", "style": "キース", "visual": "入口・権利を持つ", "tag": "have"}, {"id": 16, "chunk": "have something to do with", "jp": "〜と関係がある", "pattern": "have + something + to do with X", "example": "This has something to do with health.", "category": "基本動詞ハブ", "style": "キース", "visual": "何か関係の糸がある", "tag": "have"}, {"id": 17, "chunk": "look into", "jp": "詳しく調べる", "pattern": "look + into X", "example": "We need to look into the problem.", "category": "基本動詞ハブ", "style": "キース", "visual": "問題の中をのぞき込む", "tag": "look"}, {"id": 18, "chunk": "look for", "jp": "探す", "pattern": "look + for X", "example": "I am looking for my phone.", "category": "基本動詞ハブ", "style": "キース", "visual": "対象を求めて見る", "tag": "look"}, {"id": 19, "chunk": "look forward to", "jp": "楽しみにする", "pattern": "look + forward + to X", "example": "I look forward to seeing you.", "category": "基本動詞ハブ", "style": "キース", "visual": "未来の方を見る", "tag": "look"}, {"id": 20, "chunk": "look up to", "jp": "尊敬する", "pattern": "look + up + to X", "example": "He looks up to his teacher.", "category": "基本動詞ハブ", "style": "キース", "visual": "上を見る＝尊敬", "tag": "look"}, {"id": 21, "chunk": "however", "jp": "しかし", "pattern": "VS / contrast", "example": "However, many researchers disagree.", "category": "論理接続", "style": "マンボー", "visual": "前と後ろを逆向きにする", "tag": "VS"}, {"id": 22, "chunk": "on the other hand", "jp": "一方で", "pattern": "VS / contrast", "example": "On the other hand, it is expensive.", "category": "論理接続", "style": "マンボー", "visual": "別の側面を出す", "tag": "VS"}, {"id": 23, "chunk": "in contrast", "jp": "対照的に", "pattern": "VS / contrast", "example": "In contrast, the second group improved.", "category": "論理接続", "style": "マンボー", "visual": "差を見せる", "tag": "VS"}, {"id": 24, "chunk": "therefore", "jp": "したがって", "pattern": "SO / result", "example": "Therefore, we need a new plan.", "category": "論理接続", "style": "マンボー", "visual": "前から結論へ進む", "tag": "SO"}, {"id": 25, "chunk": "as a result", "jp": "その結果", "pattern": "SO / result", "example": "As a result, sales increased.", "category": "論理接続", "style": "マンボー", "visual": "原因の後に結果を出す", "tag": "SO"}, {"id": 26, "chunk": "because of", "jp": "〜のために", "pattern": "CAUSE", "example": "Because of the rain, the game was canceled.", "category": "論理接続", "style": "マンボー", "visual": "理由を示す", "tag": "SO"}, {"id": 27, "chunk": "for example", "jp": "例えば", "pattern": "EX / example", "example": "For example, many students use apps.", "category": "論理接続", "style": "マンボー", "visual": "具体例を出す", "tag": "EX"}, {"id": 28, "chunk": "such as", "jp": "〜のような", "pattern": "EX / example", "example": "Animals such as dogs and cats are popular.", "category": "論理接続", "style": "マンボー", "visual": "例のリストを出す", "tag": "EX"}, {"id": 29, "chunk": "in other words", "jp": "言い換えると", "pattern": "REPHRASE", "example": "In other words, time is limited.", "category": "論理接続", "style": "マンボー", "visual": "同じことを言い直す", "tag": "SO"}, {"id": 30, "chunk": "according to", "jp": "〜によると", "pattern": "DATA / source", "example": "According to the report, prices rose.", "category": "論理接続", "style": "マンボー", "visual": "情報源を示す", "tag": "DATA"}, {"id": 31, "chunk": "research shows that", "jp": "研究は〜を示す", "pattern": "DATA / evidence", "example": "Research shows that sleep affects memory.", "category": "論理接続", "style": "マンボー", "visual": "根拠を出す", "tag": "DATA"}, {"id": 32, "chunk": "it suggests that", "jp": "それは〜を示唆する", "pattern": "DATA→SO", "example": "It suggests that exercise helps learning.", "category": "論理接続", "style": "マンボー", "visual": "根拠から示唆へ進む", "tag": "DATA"}, {"id": 33, "chunk": "in addition", "jp": "さらに", "pattern": "ADD", "example": "In addition, it saves time.", "category": "論理接続", "style": "マンボー", "visual": "情報を追加する", "tag": "ADD"}, {"id": 34, "chunk": "as well as", "jp": "〜だけでなく", "pattern": "ADD", "example": "It improves speed as well as quality.", "category": "論理接続", "style": "マンボー", "visual": "並べて追加する", "tag": "ADD"}, {"id": 35, "chunk": "instead of", "jp": "〜の代わりに", "pattern": "VS / replacement", "example": "Use this instead of that.", "category": "論理接続", "style": "マンボー", "visual": "置き換える", "tag": "VS"}, {"id": 36, "chunk": "It is important to", "jp": "〜することが重要だ", "pattern": "It is + adj + to V", "example": "It is important to check the data.", "category": "文構造", "style": "カオティック", "visual": "評価→行動", "tag": "DEC"}, {"id": 37, "chunk": "It is necessary to", "jp": "〜する必要がある", "pattern": "It is + adj + to V", "example": "It is necessary to change the plan.", "category": "文構造", "style": "カオティック", "visual": "必要性→行動", "tag": "DEC"}, {"id": 38, "chunk": "It is likely that", "jp": "〜しそうだ", "pattern": "It is likely that S V", "example": "It is likely that demand will rise.", "category": "文構造", "style": "カオティック", "visual": "可能性を述べる", "tag": "SO"}, {"id": 39, "chunk": "It is possible that", "jp": "〜の可能性がある", "pattern": "It is possible that S V", "example": "It is possible that he is right.", "category": "文構造", "style": "カオティック", "visual": "可能性を開く", "tag": "SO"}, {"id": 40, "chunk": "The fact that", "jp": "〜という事実", "pattern": "The fact that S V", "example": "The fact that he failed is important.", "category": "文構造", "style": "カオティック", "visual": "文を名詞の塊にする", "tag": "DATA"}, {"id": 41, "chunk": "The reason why", "jp": "〜する理由", "pattern": "The reason why S V", "example": "The reason why I agree is simple.", "category": "文構造", "style": "カオティック", "visual": "理由を箱にする", "tag": "DATA"}, {"id": 42, "chunk": "What matters is", "jp": "重要なのは〜だ", "pattern": "What matters is X", "example": "What matters is how we use it.", "category": "文構造", "style": "カオティック", "visual": "大事な点を前に出す", "tag": "DEC"}, {"id": 43, "chunk": "One of the most important", "jp": "最も重要なものの1つ", "pattern": "One of the most important + plural", "example": "One of the most important factors is time.", "category": "文構造", "style": "カオティック", "visual": "多数の中から重要点を選ぶ", "tag": "DEC"}, {"id": 44, "chunk": "not only A but also B", "jp": "AだけでなくBも", "pattern": "not only A but also B", "example": "It saves not only time but also money.", "category": "文構造", "style": "カオティック", "visual": "二つを強く並べる", "tag": "ADD"}, {"id": 45, "chunk": "so that", "jp": "〜するために", "pattern": "S V so that S can V", "example": "Study early so that you can sleep well.", "category": "文構造", "style": "カオティック", "visual": "目的をつなぐ", "tag": "SO"}, {"id": 46, "chunk": "such A as B", "jp": "BのようなA", "pattern": "such A as B", "example": "Such tools as AI apps are useful.", "category": "文構造", "style": "カオティック", "visual": "例を中に入れる", "tag": "EX"}, {"id": 47, "chunk": "too A to B", "jp": "AすぎてBできない", "pattern": "too + adj + to V", "example": "It is too difficult to solve.", "category": "文構造", "style": "カオティック", "visual": "程度が行動を止める", "tag": "DEC"}, {"id": 48, "chunk": "enough to", "jp": "〜するのに十分", "pattern": "adj + enough to V", "example": "It is easy enough to understand.", "category": "文構造", "style": "カオティック", "visual": "十分性を示す", "tag": "SO"}, {"id": 49, "chunk": "whether or not", "jp": "〜かどうか", "pattern": "whether or not S V", "example": "We must decide whether or not to continue.", "category": "文構造", "style": "カオティック", "visual": "二択を作る", "tag": "DEC"}, {"id": 50, "chunk": "the relationship between A and B", "jp": "AとBの関係", "pattern": "relationship between A and B", "example": "We studied the relationship between sleep and memory.", "category": "文構造", "style": "カオティック", "visual": "二者の関係を箱にする", "tag": "DATA"}];
-let current=null,t0=0,randomMode=true;let logs=JSON.parse(localStorage.getItem('cles_logs_v01')||'[]');
-const sample=`We need to [look into] the problem. [According to] the report, many students [have difficulty in] reading long sentences. [However], if they learn chunks [such as] [take into account] and [the fact that], they can [make progress]. [As a result], reading becomes easier.`;
-function icon(c){ if(c.style==='キース') return '🏃 <span class="arrow">→</span> 🧱'; if(c.style==='マンボー') return '🧑‍🎓 <span class="arrow">→</span> 💡'; return '🧠 <span class="arrow">⇄</span> 🕸️';}
-function showTab(id){document.querySelectorAll('.panel').forEach(x=>x.classList.remove('active'));document.getElementById(id).classList.add('active');document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));event.target.classList.add('active'); if(id==='stats') renderStats();}
-function pick(){ if(randomMode) return CHUNKS[Math.floor(Math.random()*CHUNKS.length)]; return CHUNKS[(current?current.id:0)%CHUNKS.length];}
-function renderCard(c){current=c;t0=Date.now();document.getElementById('answer').classList.add('hidden');document.getElementById('result').textContent='';cat.textContent=c.category;style.textContent=c.style+'式';style.className='badge style-'+c.style;tag.textContent=c.tag;chunk.textContent=c.chunk;jp.textContent=c.jp;pattern.textContent=c.pattern;visual.innerHTML=icon(c)+'<span>'+c.visual+'</span>';example.textContent=c.example;}
-function nextCard(){renderCard(pick());}
-function reveal(){document.getElementById('answer').classList.remove('hidden');}
-function answer(kind){let ms=Date.now()-t0;reveal();let label={know:'KNOWN',ng:'UNKNOWN'}[kind];let speed=ms>3000?'SLOW':ms>1500?'MID':'FAST';result.textContent= label+' / '+speed+' / '+(ms/1000).toFixed(1)+'秒';result.style.color=kind==='know'?'#16a34a':'#dc2626';logs.push({time:new Date().toISOString(),id:current.id,chunk:current.chunk,category:current.category,tag:current.tag,result:label,speed,ms});localStorage.setItem('cles_logs_v01',JSON.stringify(logs));}
-function toggleMode(){randomMode=!randomMode;modeBtn.textContent=randomMode?'ランダム':'順番';}
-function renderHL(){let html=sample.replace(/\[([^\]]+)\]/g,(m,p)=>{let c=CHUNKS.find(x=>x.chunk===p); return c?`<span class="hl" onclick="openChunk(${c.id})">${p}</span>`:p});hltext.innerHTML=html;}
-function openChunk(id){let c=CHUNKS.find(x=>x.id===id);mcat.textContent=c.category;mstyle.textContent=c.style+'式';mstyle.className='badge style-'+c.style;mchunk.textContent=c.chunk;mjp.textContent=c.jp;mpattern.textContent=c.pattern;mvisual.innerHTML=icon(c)+'<span>'+c.visual+'</span>';mexample.textContent=c.example;modal.classList.add('show');}
-function closeModal(e){if(e.target.id==='modal') modal.classList.remove('show')}
-function renderLib(){lib.innerHTML=CHUNKS.map(c=>`<div class="item"><b>${c.id}. ${c.chunk}</b><br>${c.jp}<br><span class="small">${c.category} / ${c.pattern}</span></div>`).join('')}
-function renderStats(){let by={};logs.forEach(l=>{by[l.category]??={n:0,ok:0,total:0};by[l.category].n++; if(l.result==='OK') by[l.category].ok++; by[l.category].total+=l.ms});let rows=Object.entries(by).map(([k,v])=>{let rate=v.n?Math.round(v.ok/v.n*100):0;let avg=v.n?Math.round(v.total/v.n):0;return `<div class="statrow"><b>${k}</b><div><div class="meter"><div style="width:${rate}%"></div></div><div class="small">KNOWN率 ${rate}% / 平均 ${avg}ms / ${v.n}件</div></div></div>`}).join('');statsbox.innerHTML=rows||'<div class="item">まだログがありません。</div>'}
-function downloadCSV(){let header='time,id,chunk,category,tag,result,speed,ms\n';let csv=header+logs.map(l=>[l.time,l.id,'"'+l.chunk+'"',l.category,l.tag,l.result,l.speed||'',l.ms].join(',')).join('\n');let blob=new Blob([csv],{type:'text/csv'});let a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='cles_chunk_logs.csv';a.click();}
-function clearLogs(){if(confirm('ログを削除しますか？')){logs=[];localStorage.removeItem('cles_logs_v01');renderStats();}}
-renderCard(CHUNKS[0]);renderHL();renderLib();
-</script></body></html>
+let DATA,items=[],groups=[],logs=[],idx=0,mode=1,timer=null,t0=0,limit=15,selected=new Set(),fadeStage=0;
+const E=x=>document.getElementById(x);
+fetch('data.json',{cache:'no-store'}).then(r=>r.json()).then(d=>{DATA=d;items=d.items;groups=d.uiGroups;logs=JSON.parse(localStorage.ww21logs||'[]');idx=Number(localStorage.ww21idx||0);mode=Number(localStorage.ww21mode||1);bind();render();});
+function bind(){
+ E('next').onclick=next;E('prev').onclick=prev;E('reset').onclick=()=>{localStorage.removeItem('ww21logs');localStorage.removeItem('ww21idx');localStorage.removeItem('ww21mode');logs=[];idx=0;mode=1;render()};
+ document.querySelectorAll('.step').forEach(b=>b.onclick=()=>{mode=Number(b.dataset.mode);render()});
+}
+function current(){return items[idx%items.length]}
+function render(){
+ const it=current(); selected=new Set(); E('answerPanel').classList.remove('show');
+ document.querySelectorAll('.step').forEach(b=>b.classList.toggle('active',Number(b.dataset.mode)===mode));
+ const label=mode===25?'Lv02.5':'Lv0'+mode;
+ E('modePill').textContent=label;E('modeDash').textContent=label;E('pos').textContent=(idx%items.length+1)+'/'+items.length;
+ E('meta').innerHTML='<span class="pill">'+it.id+'</span><span class="pill">'+label+'</span>';
+ if(mode===1){E('heroTitle').textContent='Lv01：語彙認識';E('heroText').textContent='知ってる / 知らないを軽く押す。';E('prompt').className='prompt';E('prompt').textContent=it.surface;E('note').textContent='見た瞬間に反応。';drawLv1();}
+ if(mode===2){E('heroTitle').textContent='Lv02：論理トリガー即時検知';E('heroText').textContent='この語が呼び出す構造を7分類から選ぶ。';E('prompt').className='prompt';E('prompt').textContent=it.surface;E('note').textContent='正解カテゴリを選ぶ。';drawGroupButtons(answerLv2);}
+ if(mode===25){E('heroTitle').textContent='Lv02.5：フェーディング訓練';E('heroText').textContent='シグナルが薄くなる / 消える状態でも構造を読む。';E('prompt').className='prompt context';E('prompt').innerHTML=getFadingText(it);E('note').textContent='単語ではなく文脈から選ぶ。';drawGroupButtons(answerLv25);}
+ dash();start();
+}
+function getFadingText(it){
+ const arr=[it.fadingVisible,it.fadingFaint,it.fadingHidden];
+ const txt=arr[fadeStage%3];
+ if(fadeStage%3===1){
+   const m=txt.match(/\((.*?)\)/);
+   if(m) return txt.replace('('+m[1]+')','<span class="faint">'+m[1]+'</span>');
+ }
+ return txt;
+}
+function drawLv1(){E('actions').innerHTML='';[['known','知ってる'],['unknown','知らない']].forEach(([cls,txt])=>{let b=document.createElement('button');b.className='btn '+cls;b.textContent=txt;b.onclick=()=>answerLv1(cls);E('actions').appendChild(b)})}
+function drawGroupButtons(handler){
+ E('actions').innerHTML='';
+ groups.forEach(g=>{let b=document.createElement('button');b.className='btn groupBtn';b.innerHTML='<b>'+g.label+'</b><br><small>'+g.jp+'</small>';b.onclick=()=>{if(selected.has(g.id)){selected.delete(g.id);b.classList.remove('sel')}else{selected.add(g.id);b.classList.add('sel')}};E('actions').appendChild(b)});
+ let ok=document.createElement('button');ok.className='btn check';ok.textContent='OK';ok.onclick=handler;E('actions').appendChild(ok);
+}
+function start(){if(timer)clearInterval(timer);t0=Date.now();timer=setInterval(()=>{let s=(Date.now()-t0)/1000,r=Math.max(0,limit-s),p=Math.max(0,r/limit*100);E('remain').textContent=r.toFixed(1);E('bar').style.width=p+'%';E('bar').style.background=p>50?'#fb7c13':p>20?'#facc15':'#ef4444';if(r<=0)clearInterval(timer)},100)}
+function sec(){let s=(Date.now()-t0)/1000;if(timer)clearInterval(timer);return +s.toFixed(2)}
+function setEq(a,b){return a.length===b.length&&a.every(x=>b.includes(x))}
+function answerLv1(){const it=current(),t=sec();logs.push({mode:'Lv01',itemId:it.id,response:arguments[0],responseTimeSec:t,timestamp:new Date().toISOString()});save();E('note').textContent='記録しました。';setTimeout(next,320);dash();}
+function showAnswer(ok){
+ const it=current();
+ E('answerTitle').textContent='正解：'+it.group.join(' / ')+'　詳細：'+it.tags.join('・');
+ E('sample').textContent='例文：'+it.example;
+ E('arrow').textContent=it.arrow;
+ E('answerPanel').classList.add('show');
+ E('note').textContent=ok?'OK。単語→構造→文脈がつながっています。':'もう一歩。シグナルではなく文脈を確認しよう。';
+}
+function answerLv2(){const it=current(),t=sec(),sel=[...selected],ok=setEq(sel.sort(),[...it.group].sort())&&t<=limit;logs.push({mode:'Lv02',itemId:it.id,response:sel,correct:it.group,pass:ok,responseTimeSec:t,timestamp:new Date().toISOString()});save();showAnswer(ok);dash();}
+function answerLv25(){const it=current(),t=sec(),sel=[...selected],ok=setEq(sel.sort(),[...it.group].sort())&&t<=limit;logs.push({mode:'Lv02.5',stage:fadeStage%3,itemId:it.id,response:sel,correct:it.group,pass:ok,responseTimeSec:t,timestamp:new Date().toISOString()});save();showAnswer(ok);dash();}
+function next(){if(mode===25){fadeStage++; if(fadeStage%3!==0){render();return}} idx=(idx+1)%items.length; save(); render();}
+function prev(){idx=(idx-1+items.length)%items.length; save(); render();}
+function save(){localStorage.ww21logs=JSON.stringify(logs);localStorage.ww21idx=idx;localStorage.ww21mode=mode}
+function dash(){const label=mode===25?'Lv02.5':'Lv0'+mode;let ls=logs.filter(l=>l.mode===label),ok=ls.filter(l=>l.pass).length;E('attempts').textContent=ls.length;E('rate').textContent=ls.length?Math.round(ok/ls.length*100)+'%':'0%'}
+</script>
+</body>
+</html>
