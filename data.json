@@ -1,137 +1,146 @@
 {
+  "version": "v26-db-integrated",
+  "ui": {
+    "layout": "Scene | Choose | Insight",
+    "ipad": "3 columns",
+    "smartphone": "vertical flow with horizontal choices"
+  },
   "groups": [
-    [
-      "VS",
-      "何が違う？",
-      "vs"
-    ],
-    [
-      "WHY",
-      "なぜ？",
-      "why"
-    ],
-    [
-      "SO",
-      "だから？",
-      "so"
-    ]
+    {
+      "id": "VS",
+      "label": "何が違う？",
+      "short": "違う",
+      "class": "vs"
+    },
+    {
+      "id": "WHY",
+      "label": "なぜ？",
+      "short": "なぜ",
+      "class": "why"
+    },
+    {
+      "id": "SO",
+      "label": "だから？",
+      "short": "だから",
+      "class": "so"
+    }
   ],
   "items": [
     {
-      "id": "AHA-01",
+      "id": "AHA-VS-01",
       "type": "VS",
       "theme": "AI",
       "title": "AIの光と影",
       "chunk": "however",
-      "sentence": "AI can improve productivity. However, it may create new risks.",
-      "before": "生産性が上がる",
-      "after": "新しいリスクが生まれる",
-      "reveal": "メリットとデメリットがぶつかっている。",
-      "aha": "あ、良い面と悪い面を比べているんだ！",
-      "symbol": "⬜ ⇔ ⬛"
+      "sentence": "AI can help students learn faster. However, it can also make them stop thinking for themselves.",
+      "before": "速く学べる",
+      "after": "自分で考えなくなる",
+      "reveal": "便利さと危うさが同時に出ている。",
+      "aha": "あ、AIの良い面と怖い面を比べているんだ！",
+      "symbol": "⚡ ⇔ 🧠"
     },
     {
-      "id": "AHA-02",
+      "id": "AHA-VS-02",
       "type": "VS",
-      "theme": "スポーツ",
-      "title": "努力と結果",
-      "chunk": "though",
-      "sentence": "Though the team practiced every day, they lost the final match.",
-      "before": "毎日練習した",
-      "after": "決勝で負けた",
-      "reveal": "努力と結果が同じ方向に進んでいない。",
-      "aha": "あ、期待と現実がズレているんだ！",
-      "symbol": "🏃 ⇔ 😔"
+      "theme": "school",
+      "title": "期待と現実",
+      "chunk": "although",
+      "sentence": "Although she answered every question, her score was lower than she expected.",
+      "before": "全部答えた",
+      "after": "点数は低かった",
+      "reveal": "やった量と結果が一致していない。",
+      "aha": "あ、努力と結果のズレを見せているんだ！",
+      "symbol": "✅ ⇔ 😟"
     },
     {
-      "id": "AHA-03",
+      "id": "AHA-VS-03",
       "type": "VS",
-      "theme": "生物",
-      "title": "小さいけど強い",
+      "theme": "sports",
+      "title": "支配したのに勝てない",
       "chunk": "yet",
-      "sentence": "The animal is small, yet it can survive in harsh environments.",
-      "before": "体が小さい",
-      "after": "厳しい環境で生き残る",
-      "reveal": "弱そうに見えるものが、実は強い。",
-      "aha": "あ、見た目と実力を比べているんだ！",
-      "symbol": "🐜 ⇔ 💪"
+      "sentence": "Japan controlled the ball for most of the game, yet one mistake changed the result.",
+      "before": "試合を支配した",
+      "after": "一つのミスで変わった",
+      "reveal": "優勢だった流れと結果が反対方向に動く。",
+      "aha": "あ、試合内容と結果のギャップを見ているんだ！",
+      "symbol": "⚽ ⇔ 💥"
     },
     {
-      "id": "AHA-04",
+      "id": "AHA-WHY-01",
       "type": "WHY",
-      "theme": "科学",
+      "theme": "science",
       "title": "植物が枯れた理由",
       "chunk": "because",
-      "sentence": "The plant died because it received no sunlight.",
-      "before": "日光がない",
+      "sentence": "The plant died because it received almost no sunlight for two weeks.",
+      "before": "日光が足りない",
       "after": "植物が枯れる",
-      "reveal": "原因があり、その結果が起きている。",
+      "reveal": "原因があって、その結果が起きている。",
       "aha": "あ、理由を説明しているんだ！",
       "symbol": "☀️なし → 🌱枯れる"
     },
     {
-      "id": "AHA-05",
+      "id": "AHA-WHY-02",
       "type": "WHY",
-      "theme": "歴史",
-      "title": "不安定になった社会",
+      "theme": "history",
+      "title": "社会が揺れた理由",
       "chunk": "lead to",
-      "sentence": "Poor harvests can lead to social unrest.",
+      "sentence": "Poor harvests can lead to higher food prices and social unrest.",
       "before": "収穫が少ない",
-      "after": "社会が不安定になる",
-      "reveal": "小さく見える原因が、大きな変化につながる。",
-      "aha": "あ、原因が次の出来事を引き起こしているんだ！",
-      "symbol": "🌾不足 → 🌍不安"
+      "after": "価格上昇と不安",
+      "reveal": "一つの原因が、次の変化を引き起こしている。",
+      "aha": "あ、出来事が連鎖しているんだ！",
+      "symbol": "🌾不足 → 💰↑ → 🌍不安"
     },
     {
-      "id": "AHA-06",
+      "id": "AHA-WHY-03",
       "type": "WHY",
-      "theme": "発見",
+      "theme": "discovery",
       "title": "リンゴからの気づき",
       "chunk": "notice",
-      "sentence": "Newton noticed an apple falling and began to ask why objects fall.",
+      "sentence": "Newton noticed an apple falling and began to wonder why objects fall toward the earth.",
       "before": "リンゴが落ちる",
-      "after": "なぜ落ちるのか考える",
-      "reveal": "現象を見て、見えない理由を探している。",
-      "aha": "あ、ただの出来事から理由を発見しようとしているんだ！",
+      "after": "なぜ落ちるか考える",
+      "reveal": "目の前の現象から、見えない理由を探している。",
+      "aha": "あ、出来事から理由を発見しようとしているんだ！",
       "symbol": "🍎 → 💡"
     },
     {
-      "id": "AHA-07",
+      "id": "AHA-SO-01",
       "type": "SO",
-      "theme": "学校",
+      "theme": "school",
       "title": "明日の試験",
       "chunk": "therefore",
       "sentence": "The exam is tomorrow. Therefore, we should review the key points tonight.",
       "before": "試験は明日",
-      "after": "今夜復習するべき",
-      "reveal": "前の情報から、次に取るべき結論が出ている。",
+      "after": "今夜復習する",
+      "reveal": "前の情報から、次に取るべき行動が出ている。",
       "aha": "あ、だから次にこうするんだ！",
       "symbol": "📅 → 🎯"
     },
     {
-      "id": "AHA-08",
+      "id": "AHA-SO-02",
       "type": "SO",
-      "theme": "経済",
-      "title": "価格が上がった理由",
+      "theme": "economy",
+      "title": "需要と価格",
       "chunk": "consequently",
-      "sentence": "Demand increased rapidly. Consequently, prices rose.",
-      "before": "需要が急に増えた",
+      "sentence": "Demand increased rapidly. Consequently, prices rose across the country.",
+      "before": "需要が増えた",
       "after": "価格が上がった",
-      "reveal": "起きたことの結果が次に表れている。",
-      "aha": "あ、前の出来事から結果が出ているんだ！",
+      "reveal": "前の変化から、次の結果が生まれている。",
+      "aha": "あ、結果が次に現れているんだ！",
       "symbol": "📈需要 → 💰価格"
     },
     {
-      "id": "AHA-09",
+      "id": "AHA-SO-03",
       "type": "SO",
       "theme": "AI",
       "title": "エラーが減った意味",
       "chunk": "this means",
       "sentence": "The model made fewer errors. This means it learned the pattern better.",
       "before": "エラーが減った",
-      "after": "パターンをより学習した",
+      "after": "パターンを学んだ",
       "reveal": "事実から意味を引き出している。",
-      "aha": "あ、事実から意味を読み取っているんだ！",
+      "aha": "あ、事実から結論を読んでいるんだ！",
       "symbol": "✅ → 💡"
     }
   ]
