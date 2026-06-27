@@ -1,10 +1,5 @@
 {
-  "version": "v26-db-integrated",
-  "ui": {
-    "layout": "Scene | Choose | Insight",
-    "ipad": "3 columns",
-    "smartphone": "vertical flow with horizontal choices"
-  },
+  "version": "v26-30",
   "groups": [
     {
       "id": "VS",
@@ -27,7 +22,7 @@
   ],
   "items": [
     {
-      "id": "AHA-VS-01",
+      "id": "VS001",
       "type": "VS",
       "theme": "AI",
       "title": "AIの光と影",
@@ -40,9 +35,9 @@
       "symbol": "⚡ ⇔ 🧠"
     },
     {
-      "id": "AHA-VS-02",
+      "id": "VS002",
       "type": "VS",
-      "theme": "school",
+      "theme": "学校",
       "title": "期待と現実",
       "chunk": "although",
       "sentence": "Although she answered every question, her score was lower than she expected.",
@@ -53,9 +48,9 @@
       "symbol": "✅ ⇔ 😟"
     },
     {
-      "id": "AHA-VS-03",
+      "id": "VS003",
       "type": "VS",
-      "theme": "sports",
+      "theme": "サッカー",
       "title": "支配したのに勝てない",
       "chunk": "yet",
       "sentence": "Japan controlled the ball for most of the game, yet one mistake changed the result.",
@@ -66,9 +61,100 @@
       "symbol": "⚽ ⇔ 💥"
     },
     {
-      "id": "AHA-WHY-01",
+      "id": "VS004",
+      "type": "VS",
+      "theme": "生物",
+      "title": "小さいけど強い",
+      "chunk": "yet",
+      "sentence": "The animal is small, yet it can survive in harsh environments.",
+      "before": "体が小さい",
+      "after": "厳しい環境で生き残る",
+      "reveal": "弱そうに見えるものが、実は強い。",
+      "aha": "あ、見た目と実力を比べているんだ！",
+      "symbol": "🐜 ⇔ 💪"
+    },
+    {
+      "id": "VS005",
+      "type": "VS",
+      "theme": "都市",
+      "title": "便利だけど疲れる",
+      "chunk": "on the other hand",
+      "sentence": "City life is convenient. On the other hand, it can be stressful.",
+      "before": "便利",
+      "after": "ストレスがある",
+      "reveal": "同じものの良い面と悪い面が並んでいる。",
+      "aha": "あ、都市生活の両面を見ているんだ！",
+      "symbol": "🏙️ ⇔ 😵"
+    },
+    {
+      "id": "VS006",
+      "type": "VS",
+      "theme": "歴史",
+      "title": "工業と農業",
+      "chunk": "in contrast",
+      "sentence": "Some countries industrialized quickly. In contrast, others remained agricultural.",
+      "before": "工業化した",
+      "after": "農業中心のまま",
+      "reveal": "国ごとの発展の違いを見せている。",
+      "aha": "あ、二つの社会の違いを比べているんだ！",
+      "symbol": "🏭 ⇔ 🌾"
+    },
+    {
+      "id": "VS007",
+      "type": "VS",
+      "theme": "ゲーム",
+      "title": "強いけど扱いづらい",
+      "chunk": "but",
+      "sentence": "The character has high attack power, but it is difficult to control.",
+      "before": "攻撃力が高い",
+      "after": "操作が難しい",
+      "reveal": "強さと使いやすさが一致していない。",
+      "aha": "あ、性能と操作性を比べているんだ！",
+      "symbol": "⚔️ ⇔ 🎮"
+    },
+    {
+      "id": "VS008",
+      "type": "VS",
+      "theme": "宇宙",
+      "title": "古い星の光",
+      "chunk": "however",
+      "sentence": "The star is extremely old. However, it still gives off strong light.",
+      "before": "とても古い",
+      "after": "強い光を出す",
+      "reveal": "古いという印象と、今も強いという事実がぶつかる。",
+      "aha": "あ、予想と現実が違うんだ！",
+      "symbol": "🪐 ⇔ ✨"
+    },
+    {
+      "id": "VS009",
+      "type": "VS",
+      "theme": "日常",
+      "title": "バスではなく歩く",
+      "chunk": "instead",
+      "sentence": "He did not take the bus. Instead, he walked to school.",
+      "before": "バスに乗らない",
+      "after": "歩いて行く",
+      "reveal": "選ばなかった行動と選んだ行動が切り替わる。",
+      "aha": "あ、AではなくBを選んでいるんだ！",
+      "symbol": "🚌 ⇔ 🚶"
+    },
+    {
+      "id": "VS010",
+      "type": "VS",
+      "theme": "心理",
+      "title": "笑顔と不安",
+      "chunk": "while",
+      "sentence": "While he smiled during the interview, his hands were shaking under the table.",
+      "before": "笑っている",
+      "after": "手が震えている",
+      "reveal": "外に見える様子と内側の状態が違う。",
+      "aha": "あ、表情と本音を比べているんだ！",
+      "symbol": "🙂 ⇔ 🤲"
+    },
+    {
+      "id": "WHY001",
       "type": "WHY",
-      "theme": "science",
+      "theme": "科学",
       "title": "植物が枯れた理由",
       "chunk": "because",
       "sentence": "The plant died because it received almost no sunlight for two weeks.",
@@ -79,9 +165,9 @@
       "symbol": "☀️なし → 🌱枯れる"
     },
     {
-      "id": "AHA-WHY-02",
+      "id": "WHY002",
       "type": "WHY",
-      "theme": "history",
+      "theme": "歴史",
       "title": "社会が揺れた理由",
       "chunk": "lead to",
       "sentence": "Poor harvests can lead to higher food prices and social unrest.",
@@ -92,9 +178,9 @@
       "symbol": "🌾不足 → 💰↑ → 🌍不安"
     },
     {
-      "id": "AHA-WHY-03",
+      "id": "WHY003",
       "type": "WHY",
-      "theme": "discovery",
+      "theme": "発見",
       "title": "リンゴからの気づき",
       "chunk": "notice",
       "sentence": "Newton noticed an apple falling and began to wonder why objects fall toward the earth.",
@@ -105,9 +191,100 @@
       "symbol": "🍎 → 💡"
     },
     {
-      "id": "AHA-SO-01",
+      "id": "WHY004",
+      "type": "WHY",
+      "theme": "医療",
+      "title": "睡眠不足の影響",
+      "chunk": "due to",
+      "sentence": "Many students lose focus during class due to a lack of sleep.",
+      "before": "睡眠不足",
+      "after": "集中できない",
+      "reveal": "見えにくい生活習慣が、授業中の状態に出ている。",
+      "aha": "あ、集中力が落ちる理由を説明しているんだ！",
+      "symbol": "😴 → 🌀"
+    },
+    {
+      "id": "WHY005",
+      "type": "WHY",
+      "theme": "環境",
+      "title": "川が汚れた原因",
+      "chunk": "cause",
+      "sentence": "Plastic waste can cause serious damage to rivers and oceans.",
+      "before": "プラスチックごみ",
+      "after": "川や海への被害",
+      "reveal": "原因が環境へのダメージを生む。",
+      "aha": "あ、何が問題を引き起こすかを見ているんだ！",
+      "symbol": "🧴 → 🌊"
+    },
+    {
+      "id": "WHY006",
+      "type": "WHY",
+      "theme": "学校",
+      "title": "別の場所で勉強",
+      "chunk": "since",
+      "sentence": "Since the library was closed, we studied at a cafe.",
+      "before": "図書館が閉まっていた",
+      "after": "カフェで勉強した",
+      "reveal": "状況が、次の行動の理由になっている。",
+      "aha": "あ、なぜそうしたのかが分かる！",
+      "symbol": "📚閉館 → ☕"
+    },
+    {
+      "id": "WHY007",
+      "type": "WHY",
+      "theme": "フェルミ",
+      "title": "市場を分解する",
+      "chunk": "break down",
+      "sentence": "To estimate the market size, we break down the problem into smaller parts.",
+      "before": "大きすぎて見えない問題",
+      "after": "小さな要素に分ける",
+      "reveal": "理由を探すために、全体を部品に分解している。",
+      "aha": "あ、フェルミみたいに分けて考えているんだ！",
+      "symbol": "🌍 → 🧩🧩"
+    },
+    {
+      "id": "WHY008",
+      "type": "WHY",
+      "theme": "部活",
+      "title": "失敗の理由",
+      "chunk": "reason",
+      "sentence": "The main reason for the loss was a lack of communication during defense.",
+      "before": "守備中の連携不足",
+      "after": "試合に負けた",
+      "reveal": "結果の裏にあった原因を探している。",
+      "aha": "あ、負けた理由を説明しているんだ！",
+      "symbol": "🛡️❌ → 😔"
+    },
+    {
+      "id": "WHY009",
+      "type": "WHY",
+      "theme": "科学",
+      "title": "発見の背景",
+      "chunk": "result from",
+      "sentence": "The discovery resulted from years of careful observation.",
+      "before": "長年の観察",
+      "after": "発見",
+      "reveal": "発見が突然ではなく、積み重ねから生まれている。",
+      "aha": "あ、発見の背景を見ているんだ！",
+      "symbol": "🔭 → 💡"
+    },
+    {
+      "id": "WHY010",
+      "type": "WHY",
+      "theme": "社会",
+      "title": "人手不足",
+      "chunk": "as",
+      "sentence": "As the population ages, many local businesses struggle to find workers.",
+      "before": "人口が高齢化する",
+      "after": "働き手が足りない",
+      "reveal": "社会の変化が、別の問題につながっている。",
+      "aha": "あ、背景が問題を生んでいるんだ！",
+      "symbol": "👵増 → 🏪困る"
+    },
+    {
+      "id": "SO001",
       "type": "SO",
-      "theme": "school",
+      "theme": "学校",
       "title": "明日の試験",
       "chunk": "therefore",
       "sentence": "The exam is tomorrow. Therefore, we should review the key points tonight.",
@@ -118,9 +295,9 @@
       "symbol": "📅 → 🎯"
     },
     {
-      "id": "AHA-SO-02",
+      "id": "SO002",
       "type": "SO",
-      "theme": "economy",
+      "theme": "経済",
       "title": "需要と価格",
       "chunk": "consequently",
       "sentence": "Demand increased rapidly. Consequently, prices rose across the country.",
@@ -131,7 +308,7 @@
       "symbol": "📈需要 → 💰価格"
     },
     {
-      "id": "AHA-SO-03",
+      "id": "SO003",
       "type": "SO",
       "theme": "AI",
       "title": "エラーが減った意味",
@@ -142,6 +319,97 @@
       "reveal": "事実から意味を引き出している。",
       "aha": "あ、事実から結論を読んでいるんだ！",
       "symbol": "✅ → 💡"
+    },
+    {
+      "id": "SO004",
+      "type": "SO",
+      "theme": "日常",
+      "title": "暗くなった帰宅",
+      "chunk": "so",
+      "sentence": "It was getting dark, so we decided to go home.",
+      "before": "暗くなってきた",
+      "after": "帰ることにした",
+      "reveal": "状況から自然な行動が出ている。",
+      "aha": "あ、だから帰ったんだ！",
+      "symbol": "🌙 → 🏠"
+    },
+    {
+      "id": "SO005",
+      "type": "SO",
+      "theme": "科学",
+      "title": "実験失敗の次",
+      "chunk": "thus",
+      "sentence": "The experiment failed. Thus, the researchers tried a new method.",
+      "before": "実験が失敗した",
+      "after": "新しい方法を試した",
+      "reveal": "失敗から次の行動が導かれている。",
+      "aha": "あ、だから別の方法に進んだんだ！",
+      "symbol": "❌ → 🔬"
+    },
+    {
+      "id": "SO006",
+      "type": "SO",
+      "theme": "歴史",
+      "title": "川を支配した都市",
+      "chunk": "hence",
+      "sentence": "The city controlled the river. Hence, it became a major trade center.",
+      "before": "川を支配した",
+      "after": "貿易都市になった",
+      "reveal": "条件がそろって、結果として発展している。",
+      "aha": "あ、そこから発展につながったんだ！",
+      "symbol": "🏞️ → 🏙️"
+    },
+    {
+      "id": "SO007",
+      "type": "SO",
+      "theme": "社会",
+      "title": "在宅勤務と交通",
+      "chunk": "as a result",
+      "sentence": "More people worked from home. As a result, city traffic decreased.",
+      "before": "在宅勤務が増えた",
+      "after": "交通量が減った",
+      "reveal": "働き方の変化が、街の変化につながっている。",
+      "aha": "あ、社会の変化の結果を見ているんだ！",
+      "symbol": "🏠💻 → 🚗↓"
+    },
+    {
+      "id": "SO008",
+      "type": "SO",
+      "theme": "スポーツ",
+      "title": "戦略変更の結果",
+      "chunk": "result",
+      "sentence": "The team changed its strategy, and the result was a surprising victory.",
+      "before": "戦略を変えた",
+      "after": "予想外の勝利",
+      "reveal": "行動のあとに結果が出ている。",
+      "aha": "あ、変えたことの結果を見ているんだ！",
+      "symbol": "🧠 → 🏆"
+    },
+    {
+      "id": "SO009",
+      "type": "SO",
+      "theme": "科学",
+      "title": "データから結論へ",
+      "chunk": "conclusion",
+      "sentence": "After comparing the data, the researchers reached a clear conclusion.",
+      "before": "データを比較した",
+      "after": "結論に到達した",
+      "reveal": "材料を集めて、最後に結論へ進んでいる。",
+      "aha": "あ、データから結論を出しているんだ！",
+      "symbol": "📊 → 🎯"
+    },
+    {
+      "id": "SO010",
+      "type": "SO",
+      "theme": "人生",
+      "title": "最後に選んだ答え",
+      "chunk": "in the end",
+      "sentence": "They tried many solutions. In the end, the simplest one worked best.",
+      "before": "多くの方法を試した",
+      "after": "最も簡単な方法が良かった",
+      "reveal": "いろいろ試した末に、最後の答えへたどり着く。",
+      "aha": "あ、結局どうなったかを示しているんだ！",
+      "symbol": "🧪 → ✅"
     }
   ]
 }
