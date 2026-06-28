@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Word World — v28 prototype</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --ink:#1C2521;
+  --ink-soft:#5B655F;
+  --paper:#FAFAF7;
+  --panel:#FFFFFF;
+  --sage:#3F6358;
+  --sage-bg:#EAF0EC;
+  --amber:#B97A2E;
+  --amber-bg:#FAF1E2;
+  --line:#E6E2D6;
+  --line-soft:#F0EDE3;
+  --radius:14px;
+  --serif:"Source Serif 4", Georgia, serif;
+  --sans:"Zen Kaku Gothic New", -apple-system, "Hiragino Sans", sans-serif;
+}
+
+*{box-sizing:border-box;}
+
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--sans);
+}
+
+.app{
+  max-width:1180px;
+  margin:0 auto;
+  padding:28px 24px 80px;
+}
+
+header{
+  display:flex;
+  align-items:baseline;
+  justify-content:space-between;
+  margin-bottom:36px;
+  padding-bottom:14px;
+  border-bottom:1px solid var(--line);
+}
+
+.brand{display:flex;align-items:baseline;gap:10px;}
+.brand h1{font-size:17px;margin:0;}
+.brand .sub{font-size:12px;color:var(--ink-soft);}
+.progress{font-size:12px;color:var(--ink-soft);}
+
+.board{
+  position:relative;
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:40px;
+}
+
+@media(max-width:860px){
+  .board{grid-template-columns:1fr;gap:28px;}
+}
+
+.col-label{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  font-size:12px;
+  color:var(--ink-soft);
+  margin-bottom:14px;
+  text-transform:uppercase;
+  letter-spacing:.06em;
+}
+
+.col-label .dot{
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  background:var(--line);
+}
+
+.tag{
+  display:inline-block;
+  font-size:11px;
+  color:var(--ink-soft);
+  border:1px solid var(--line);
+  border-radius:999px;
+  padding:2px 9px;
+  margin-right:6px;
+}
+
+.tag.highlight{
+  color:var(--amber);
+  border-color:var(--amber);
+}
+
+.scene-title{
+  font-size:21px;
+  font-weight:700;
+  margin:14px 0 18px;
+}
+
+.scene-text{
+  font-family:var(--serif);
+  font-size:21px;
+  line-height:1.65;
+}
+
+.scene-text .marker{
+  color:var(--amber);
+  font-weight:600;
+}
+
+.prompt{
+  font-size:19px;
+  font-weight:600;
+  margin-bottom:26px;
+}
+
+.opt{
+  display:block;
+  width:100%;
+  text-align:center;
+  font-size:15px;
+  font-weight:600;
+  padding:16px 14px;
+  margin-bottom:12px;
+  border-radius:var(--radius);
+  border:1px solid var(--line);
+  background:var(--panel);
+  color:var(--ink-soft);
+  cursor:pointer;
+  transition:.25s ease;
+}
+
+.opt small{
+  display:block;
+  font-size:10px;
+  letter-spacing:.08em;
+  margin-top:4px;
+  opacity:.6;
+}
+
+.opt.active{
+  border-color:var(--sage);
+  color:var(--sage);
+  background:var(--sage-bg);
+}
+
+.opt.dormant{
+  color:#C7C2B4;
+  border-color:var(--line-soft);
+  background:transparent;
+  cursor:default;
+}
+
+.opt.chosen{
+  background:var(--sage);
+  color:#fff;
+  border-color:var(--sage);
+}
+
+.thread-svg{
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  pointer-events:none;
+  z-index:5;
+  overflow:visible;
+}
+
+.thread-path{
+  fill:none;
+  stroke:var(--sage);
+  stroke-width:1.5;
+  stroke-dasharray:4 6;
+  stroke-linecap:round;
+  opacity:0;
+}
+
+.thread-path.draw{
+  opacity:.55;
+  animation:dash 1.1s ease forwards;
+}
+
+@keyframes dash{
+  from{stroke-dashoffset:240;opacity:0;}
+  to{stroke-dashoffset:0;opacity:.55;}
+}
+
+.insight-empty{
+  height:100%;
+  min-height:220px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  color:#C7C2B4;
+  font-size:13px;
+  gap:10px;
+}
+
+.breathe{
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:#C7C2B4;
+  animation:breathe 2.2s ease-in-out infinite;
+}
+
+@keyframes breathe{
+  0%,100%{opacity:.25;transform:scale(1);}
+  50%{opacity:.8;transform:scale(1.4);}
+}
+
+.insight-card{
+  background:var(--sage);
+  border-radius:var(--radius);
+  padding:26px 24px;
+  color:#fff;
+  opacity:0;
+  transform:translateY(10px);
+  transition:.5s ease;
+}
+
+.insight-card.show{
+  opacity:1;
+  transform:translateY(0);
+}
+
+.vs-row{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:18px;
+  margin-bottom:18px;
+  font-size:22px;
+}
+
+.vs-row .center{
+  font-size:15px;
+  opacity:.65;
+}
+
+.vs-pair{
+  display:flex;
+  gap:12px;
+}
+
+.vs-box{
+  flex:1;
+  background:rgba(255,255,255,.12);
+  border-radius:10px;
+  padding:13px 10px;
+  text-align:center;
+  font-size:14px;
+  font-weight:600;
+}
+
+.vs-sub{
+  text-align:center;
+  margin-top:16px;
+  font-size:13px;
+  opacity:.85;
+}
+
+.found{
+  margin-top:16px;
+  background:var(--amber-bg);
+  border:1px solid var(--amber);
+  border-radius:var(--radius);
+  padding:16px 18px;
+  font-size:14px;
+  line-height:1.6;
+  opacity:0;
+  transform:translateY(8px);
+  transition:.5s ease;
+}
+
+.found.show{
+  opacity:1;
+  transform:translateY(0);
+}
+
+.found b{
+  color:var(--amber);
+}
+
+.summary20{
+  margin-top:14px;
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:16px;
+  opacity:0;
+  transform:translateY(8px);
+  transition:.5s ease;
+  pointer-events:none;
+}
+
+.summary20.show{
+  opacity:1;
+  transform:translateY(0);
+  pointer-events:auto;
+}
+
+.summary-title{
+  font-size:13px;
+  color:var(--ink-soft);
+  margin-bottom:8px;
+}
+
+.summary20 input{
+  width:100%;
+  padding:13px 14px;
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  font-family:var(--sans);
+  font-size:15px;
+}
+
+.summary20 button{
+  margin-top:8px;
+  width:100%;
+  padding:12px;
+  border:none;
+  border-radius:var(--radius);
+  background:var(--amber);
+  color:white;
+  font-weight:700;
+  cursor:pointer;
+}
+
+.summary-result{
+  display:none;
+  margin-top:10px;
+  font-size:13px;
+  color:var(--sage);
+  font-weight:700;
+}
+
+.reset-row{
+  margin-top:40px;
+  text-align:center;
+}
+
+.reset{
+  font-size:12px;
+  color:var(--ink-soft);
+  background:none;
+  border:none;
+  border-bottom:1px solid var(--line);
+  cursor:pointer;
+  padding:4px 0;
+}
+</style>
+</head>
+
+<body>
+<div class="app">
+
+<header>
+  <div class="brand">
+    <h1>🌍 Word World</h1>
+    <span class="sub">v28 / Structure Discovery + 20字要約</span>
+  </div>
+  <div class="progress">1 / 30</div>
+</header>
+
+<div class="board" id="board">
+
+  <section>
+    <div class="col-label"><span class="dot"></span>Scene</div>
+    <span class="tag">VS001</span>
+    <span class="tag highlight">however</span>
+
+    <div class="scene-title">AIの光と影</div>
+    <p class="scene-text">
+      AI can help students learn faster.
+      <span class="marker">However</span>, it can also make them stop thinking for themselves.
+    </p>
+  </section>
+
+  <section>
+    <div class="col-label"><span class="dot"></span>Choose</div>
+    <div class="prompt">何をしている？</div>
+
+    <button class="opt active" id="opt-vs" onclick="choose()">
+      何が違う？<small>VS</small>
+    </button>
+
+    <button class="opt dormant" id="opt-why">
+      なぜ？<small>WHY · 次のステップ</small>
+    </button>
+
+    <button class="opt dormant" id="opt-so">
+      だから？<small>SO · 次のステップ</small>
+    </button>
+  </section>
+
+  <section>
+    <div class="col-label"><span class="dot"></span>Insight</div>
+
+    <div id="insight-empty" class="insight-empty">
+      <div class="breathe"></div>
+      <div>まだ何も見えていません</div>
+    </div>
+
+    <div class="insight-card" id="insight-card">
+      <div class="vs-row">
+        <span>⚡</span><span class="center">⇆</span><span>🧠</span>
+      </div>
+
+      <div class="vs-pair">
+        <div class="vs-box">速く学べる</div>
+        <div class="vs-box">自分で考えなくなる</div>
+      </div>
+
+      <div class="vs-sub">
+        便利さと危うさが同時に出ている。
+      </div>
+    </div>
+
+    <div class="found" id="found">
+      <b>✨ Insight Found.</b>
+      あ、AIの良い面と怖い面を比べているんだ！
+    </div>
+
+    <div class="summary20" id="summary20">
+      <div class="summary-title">これを20字で言い切ると？</div>
+      <input id="summaryInput" maxlength="20" placeholder="例：便利さと自立思考の対立">
+      <button onclick="saveSummary()">記録する</button>
+      <div class="summary-result" id="summaryResult">記録しました。</div>
+    </div>
+  </section>
+
+  <svg class="thread-svg" id="threadSvg">
+    <path class="thread-path" id="threadPath" d=""></path>
+  </svg>
+
+</div>
+
+<div class="reset-row">
+  <button class="reset" onclick="resetDemo()">もう一度見る ↻</button>
+</div>
+
+</div>
+
+<script>
+function choose(){
+  const optVs = document.getElementById('opt-vs');
+  const optWhy = document.getElementById('opt-why');
+  const optSo = document.getElementById('opt-so');
+
+  optVs.classList.remove('active');
+  optVs.classList.add('chosen');
+  optVs.disabled = true;
+
+  drawThread();
+
+  setTimeout(()=>{
+    document.getElementById('insight-empty').style.display = 'none';
+    document.getElementById('insight-card').classList.add('show');
+  },350);
+
+  setTimeout(()=>{
+    document.getElementById('found').classList.add('show');
+  },950);
+
+  setTimeout(()=>{
+    document.getElementById('summary20').classList.add('show');
+  },1350);
+
+  setTimeout(()=>{
+    optWhy.classList.remove('dormant');
+    optWhy.classList.add('active');
+    optWhy.querySelector('small').textContent = 'WHY';
+
+    optSo.classList.remove('dormant');
+    optSo.classList.add('active');
+    optSo.querySelector('small').textContent = 'SO';
+  },1500);
+}
+
+function drawThread(){
+  const board = document.getElementById('board');
+  const from = document.getElementById('opt-vs').getBoundingClientRect();
+  const to = document.getElementById('insight-empty').getBoundingClientRect();
+  const boardRect = board.getBoundingClientRect();
+
+  const x1 = from.right - boardRect.left;
+  const y1 = from.top + from.height / 2 - boardRect.top;
+  const x2 = to.left - boardRect.left;
+  const y2 = to.top + to.height / 2 - boardRect.top;
+  const midX = (x1 + x2) / 2;
+
+  const path = document.getElementById('threadPath');
+  path.setAttribute('d', `M ${x1} ${y1} C ${midX} ${y1}, ${midX} ${y2}, ${x2} ${y2}`);
+
+  path.classList.remove('draw');
+  void path.getBoundingClientRect();
+  path.classList.add('draw');
+}
+
+function saveSummary(){
+  const input = document.getElementById('summaryInput');
+  const result = document.getElementById('summaryResult');
+
+  if(input.value.trim().length === 0){
+    result.style.display = 'block';
+    result.textContent = 'まず一言で書いてみよう。';
+    result.style.color = '#B97A2E';
+    return;
+  }
+
+  result.style.display = 'block';
+  result.textContent = `記録しました：${input.value}`;
+  result.style.color = '#3F6358';
+}
+
+function resetDemo(){
+  location.reload();
+}
+</script>
+
+</body>
+</html>
