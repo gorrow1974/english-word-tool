@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CLES Thinking Simulator VS5</title>
+<style>
+*{box-sizing:border-box}:root{--bg:#f7faf4;--ink:#102016;--green:#174a2b;--navy:#07345b;--orange:#fb7c13;--line:#dce7da;--soft:#fff8e7;--muted:#64748b}
+body{margin:0;background:radial-gradient(circle at top,#fff 0,#f7faf4 48%,#edf7ef 100%);font-family:system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink)}
+.app{min-height:100vh;max-width:960px;margin:0 auto;padding:18px;display:grid;grid-template-rows:auto 1fr auto;gap:14px}
+.header{display:flex;justify-content:space-between;align-items:center}.logo{font-size:25px;font-weight:1000;color:var(--green)}.logo small{display:block;color:var(--muted);font-size:12px;margin-top:4px}.pill{background:#fff;border:1px solid var(--line);border-radius:999px;padding:8px 13px;color:var(--green);font-weight:1000}
+.card{background:#fff;border:1px solid var(--line);border-radius:28px;padding:26px;box-shadow:0 18px 50px #00000012}
+.step{color:var(--orange);font-size:13px;font-weight:1000;margin-bottom:8px}.title{font-size:30px;font-weight:1000;color:var(--navy);letter-spacing:-.03em;margin:0 0 12px}.lead,.sentence{background:var(--soft);border:2px solid #f2c878;border-radius:22px;padding:18px;font-size:28px;font-weight:950;line-height:1.45}.jp{border-top:1px dashed #e5c36c;margin-top:12px;padding-top:10px;color:#475569;font-size:16px;font-weight:900;line-height:1.5}.chunk{color:var(--orange);background:#fff3df;border-radius:10px;padding:0 6px}.question{font-size:19px;font-weight:1000;color:#334155;margin:18px 0 10px}
+.choices{display:grid;grid-template-columns:1fr 1fr;gap:10px}.choice{border:2px solid #dbe3df;background:#fff;border-radius:18px;min-height:62px;padding:12px;font-size:15px;font-weight:1000;cursor:pointer;text-align:left}.choice.selected{background:#dcfce7;border-color:#22c55e;color:#166534}.choice.wrong{background:#fee2e2;border-color:#ef4444;color:#991b1b}.choice.correct{background:#dcfce7!important;border-color:#22c55e!important;color:#166534!important}
+.structure{background:linear-gradient(135deg,#07345b,#174a2b);border-radius:24px;color:white;padding:20px;text-align:center}.symbol{font-size:42px;font-weight:1000}.compare{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:12px;margin-top:12px}.node{background:#fff;color:#0f172a;border-radius:16px;padding:14px;font-weight:1000}.arrow{font-size:30px;font-weight:1000}
+.box{border-radius:20px;padding:15px;margin-top:12px;font-weight:1000;line-height:1.55}.blue{background:#eff6ff;border:2px solid #bfdbfe;color:#1e3a8a}.green{background:#ecfdf5;border:2px solid #86efac;color:#064e3b}.gray{background:#f8fafc;border:2px solid #dbe3df;color:#0f172a}
+textarea{width:100%;min-height:90px;border:2px solid #dbe3df;border-radius:16px;padding:12px;font-size:15px;font-weight:800}
+.footer{display:flex;justify-content:space-between;align-items:center}.btn{border:0;border-radius:16px;padding:13px 18px;font-size:15px;font-weight:1000}.primary{background:var(--green);color:#fff}.secondary{background:#e5e7eb;color:#334155}.progress{font-size:13px;font-weight:1000;color:#64748b}
+@media(max-width:760px){.app{padding:12px}.title{font-size:24px}.lead,.sentence{font-size:20px}.choices{grid-template-columns:1fr}.card{padding:18px;border-radius:22px}}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="header"><div class="logo">🌏 CLES Thinking Simulator<small>VS 5 Prototype / 考えながら読む</small></div><div class="pill" id="counter">1/5</div></header>
+<main><section class="card" id="card"></section></main>
+<footer class="footer"><button class="btn secondary" id="back">戻る</button><div class="progress" id="progress">STEP 1</div><button class="btn primary" id="next">次へ</button></footer>
+</div>
+<script>
+let DATA,items=[],idx=0,step=0,logs=[],state={};const E=x=>document.getElementById(x);
+fetch('data.json',{cache:'no-store'}).then(r=>r.json()).then(d=>{DATA=d;items=d.items;logs=JSON.parse(localStorage.clesThinkVs5Logs||'[]');render()});
+function cur(){return items[idx]}
+function save(){localStorage.clesThinkVs5Logs=JSON.stringify(logs)}
+function htmlEscape(s){return String(s).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'","&#39;")}
+function attr(s){return htmlEscape(s)}
+function h(s,c){const esc=c.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');return s.replace(new RegExp(esc,'i'),m=>'<span class="chunk">'+m+'</span>')}
+function render(){E('counter').textContent=(idx+1)+'/'+items.length;E('progress').textContent='STEP '+(step+1)+' / 6';const it=cur();const c=E('card');
+ if(step===0)c.innerHTML='<div class="step">STEP 1 予測する</div><h1 class="title">'+it.title+'</h1><div class="lead">'+htmlEscape(it.lead)+'</div><div class="question">次はどんな流れになると思う？</div><div class="choices">'+it.predict_choices.map(x=>'<button class="choice" onclick="selectPredict(this,\''+attr(x)+'\')">'+htmlEscape(x)+'</button>').join('')+'</div>';
+ if(step===1)c.innerHTML='<div class="step">STEP 2 答える</div><h1 class="title">'+it.title+'</h1><div class="sentence">'+h(it.sentence,it.chunk)+'<div class="jp">日本語：'+htmlEscape(it.jp)+'</div></div><div class="question">この英文は、どの読み方が一番近い？</div><div class="choices"><button class="choice" onclick="selectAnswer(this,\'VS\')">何が違う？<br><small>VS</small></button><button class="choice" onclick="selectAnswer(this,\'WHY\')">なぜ？<br><small>WHY</small></button><button class="choice" onclick="selectAnswer(this,\'SO\')">だから？<br><small>SO</small></button><button class="choice" onclick="selectAnswer(this,\'EX\')">たとえば？<br><small>EX</small></button></div>';
+ if(step===2)c.innerHTML='<div class="step">STEP 3 根拠を選ぶ</div><h1 class="title">なぜそう読んだ？</h1><div class="sentence">'+h(it.sentence,it.chunk)+'</div><div class="question">根拠だと思うものを選んでください。複数OK。</div><div class="choices">'+it.evidence.map(x=>'<button class="choice" onclick="toggleEvidence(this,\''+attr(x)+'\')">'+htmlEscape(x)+'</button>').join('')+'</div>';
+ if(step===3)c.innerHTML='<div class="step">STEP 4 構造を見る</div><h1 class="title">構造が見える</h1><div class="structure"><div class="symbol">'+it.symbol+'</div><div class="compare"><div class="node">'+htmlEscape(it.before)+'</div><div class="arrow">⇔</div><div class="node">'+htmlEscape(it.after)+'</div></div></div><div class="box blue">'+htmlEscape(it.teacher)+'</div>';
+ if(step===4)c.innerHTML='<div class="step">STEP 5 反論する</div><h1 class="title">本当にVS？</h1><div class="box gray">'+htmlEscape(it.counter)+'</div><div class="question">もし別の読み方だと言うなら、どこを根拠にしますか？</div><textarea id="rebuttal" placeholder="例：WHYにも見える。でも理由が説明されていないので、今回はVSが自然。">'+htmlEscape(state.rebuttal||'')+'</textarea>';
+ if(step===5)c.innerHTML='<div class="step">STEP 6 振り返る</div><h1 class="title">今回の理解</h1><div class="box green">正解を当てるより、「どこを見て判断したか」が大切です。</div><div class="question">今日はどう？</div><div class="choices"><button class="choice" onclick="selectReflect(this,\'clear\')">少し見えてきた</button><button class="choice" onclick="selectReflect(this,\'hard\')">まだ難しい</button><button class="choice" onclick="selectReflect(this,\'explain\')">人に説明できる</button></div>';
+}
+function selectPredict(btn,v){state.predict=v;mark(btn);if(v!==cur().predict_answer)btn.classList.add('wrong');else btn.classList.add('correct')}
+function selectAnswer(btn,v){state.answer=v;[...document.querySelectorAll('.choice')].forEach(b=>{if(b.textContent.includes('VS'))b.classList.add('correct')});mark(btn);if(v!=='VS')btn.classList.add('wrong');else btn.classList.add('correct')}
+function toggleEvidence(btn,v){state.evidence=state.evidence||[];if(state.evidence.includes(v)){state.evidence=state.evidence.filter(x=>x!==v);btn.classList.remove('selected')}else{state.evidence.push(v);btn.classList.add('selected')}}
+function selectReflect(btn,v){state.reflect=v;mark(btn)}
+function mark(btn){[...btn.parentElement.children].forEach(b=>b.classList.remove('selected'));btn.classList.add('selected')}
+E('next').onclick=()=>{if(step===4){const t=document.getElementById('rebuttal');if(t)state.rebuttal=t.value} if(step<5){step++;render()}else{const it=cur();logs.push({ts:new Date().toISOString(),id:it.id,predict:state.predict,answer:state.answer,evidence:state.evidence||[],rebuttal:state.rebuttal||'',reflect:state.reflect||''});save();idx=(idx+1)%items.length;step=0;state={};render()}};
+E('back').onclick=()=>{if(step>0){step--;render()}else{idx=(idx-1+items.length)%items.length;step=0;state={};render()}};
+</script>
+</body></html>
