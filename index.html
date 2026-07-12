@@ -4,8 +4,8 @@
 <style>
 *{box-sizing:border-box}:root{--bg:#f7faf4;--ink:#102016;--muted:#64748b;--green:#174a2b;--navy:#07345b;--orange:#fb7c13;--line:#dce7da;--soft:#fff8e7}body{margin:0;background:radial-gradient(circle at top,#fff 0,#f7faf4 50%,#edf7ef 100%);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",sans-serif}.app{min-height:100vh;max-width:1040px;margin:0 auto;padding:18px;display:grid;grid-template-rows:auto 1fr auto;gap:14px}.header{display:flex;justify-content:space-between;align-items:center;gap:12px}.logo{font-size:26px;font-weight:1000;color:var(--green);line-height:1}.logo small{display:block;font-size:12px;color:var(--muted);margin-top:5px}.pill{background:#fff;border:1px solid var(--line);border-radius:999px;padding:9px 14px;font-weight:1000;color:var(--green);box-shadow:0 8px 22px #0000000c}.main{display:flex;flex-direction:column;justify-content:center;gap:14px}.intro,.scene,.timer{background:#fff;border:1px solid var(--line);border-radius:26px;box-shadow:0 18px 50px #00000010}.intro{padding:26px 30px}.intro h1{margin:0 0 8px;color:var(--navy);font-size:34px;letter-spacing:-.04em}.intro p{font-size:18px;font-weight:900;line-height:1.7;margin:10px 0;color:#334155}.intro .note{background:var(--soft);border:2px solid #f2c878;border-radius:20px;padding:14px;margin-top:14px}.note b{color:var(--navy)}.startBtn{margin-top:16px;border:0;border-radius:18px;background:var(--green);color:#fff;padding:15px 24px;font-size:17px;font-weight:1000}.scene{padding:24px 30px}.meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;gap:10px}.theme{font-weight:1000;color:var(--navy)}.badges span{display:inline-block;background:#e9f7ec;color:#166534;border-radius:999px;padding:6px 10px;font-size:11px;font-weight:1000;margin-left:5px}.title{font-size:28px;color:var(--navy);font-weight:1000;margin:0 0 18px;letter-spacing:-.03em}.prompt{background:var(--soft);border:2px solid #f2c878;border-radius:22px;padding:18px 20px}.sentence{font-size:29px;line-height:1.5;font-weight:950}.chunk{color:var(--orange);background:#fff3df;border-radius:10px;padding:0 6px}.jp{border-top:1px dashed #e5c36c;margin-top:14px;padding-top:12px;color:#475569;font-size:17px;line-height:1.55;font-weight:900}.questionTitle{font-size:18px;font-weight:1000;color:#334155;margin:4px 0 0}.choose{display:grid;grid-template-columns:repeat(7,1fr);gap:8px}.choice{border:2px solid #dbe3df;background:#fff;border-radius:18px;min-height:68px;padding:10px 4px;font-size:14px;font-weight:1000;cursor:pointer;box-shadow:0 10px 24px #0000000b}.choice small{display:block;color:#64748b;font-size:10px;margin-top:3px}.choice.correct{background:#dcfce7;color:#166534;border-color:#22c55e}.choice.correctAnswer{background:#dcfce7!important;color:#166534!important;border-color:#22c55e!important;box-shadow:0 0 0 4px #bbf7d0}.choice.wrong{background:#fee2e2;color:#991b1b;border-color:#ef4444}.timer{padding:11px 14px}.timerTop{display:flex;justify-content:space-between;font-weight:1000;color:#334155}.timerTop b{font-size:22px;color:var(--orange)}.barOut{height:12px;background:#e5e7eb;border-radius:999px;overflow:hidden;margin-top:8px}.bar{height:100%;width:100%;background:var(--orange);transition:width .08s linear}.footer{display:flex;justify-content:space-between;align-items:center;gap:10px}.footer button,.modalActions button{border:0;border-radius:16px;padding:12px 17px;font-size:14px;font-weight:1000}.secondary{background:#e5e7eb;color:#334155}.primary{background:var(--green);color:#fff}.stats{font-size:13px;font-weight:1000;color:#64748b;text-align:center}.logbar{display:flex;gap:6px;align-items:center}.logbtn{border:1px solid var(--line);border-radius:999px;background:#fff;color:var(--green);padding:8px 10px;font-size:11px;font-weight:1000}.overlay{position:fixed;inset:0;background:rgba(15,23,42,.38);display:none;align-items:center;justify-content:center;padding:20px;z-index:10;backdrop-filter:blur(5px)}.overlay.show{display:flex}.modal{width:min(780px,100%);max-height:92vh;overflow:auto;background:#fff;border-radius:32px;box-shadow:0 40px 120px #00000040;padding:24px}.feedback{font-size:34px;font-weight:1000;text-align:center;margin-bottom:12px}.feedback.ok{color:#166534}.feedback.ng{color:#991b1b}.structure{color:#fff;border-radius:26px;padding:20px;text-align:center;background:linear-gradient(135deg,#07345b,#174a2b)}.symbol{font-size:42px;font-weight:1000;margin-bottom:10px}.compare{display:grid;grid-template-columns:1fr auto 1fr;gap:12px;align-items:center;margin:12px 0}.node{background:#fff;color:#0f172a;border-radius:16px;padding:13px;min-height:62px;display:flex;align-items:center;justify-content:center;font-weight:1000}.arrow{font-size:30px;font-weight:1000}.reveal{font-size:17px;font-weight:1000;line-height:1.45}.supportBox,.aha,.learnBox,.reflectionBox,.summaryBox{border-radius:20px;padding:14px;margin-top:12px;font-weight:1000;line-height:1.55}.supportBox{background:var(--soft);border:2px solid #f2c878;color:#0f172a}.supportEn{font-size:17px;margin-bottom:8px}.supportJa{color:#475569;font-size:14px}.aha{background:#eff6ff;border:2px solid #bfdbfe;color:#1e3a8a;font-size:18px}.learnBox{background:#f8fafc;border:2px solid #dbe3df;color:#0f172a}.learnTitle{font-size:15px;color:#334155;margin-bottom:8px}.reflectionBox{background:#ecfdf5;border:2px solid #86efac;color:#064e3b}.reflectBtns{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}.reflectBtn{border:2px solid #bbf7d0;background:#fff;border-radius:16px;padding:12px;font-weight:1000}.reflectBtn.selected{background:#dcfce7;border-color:#22c55e;color:#166534}.summaryBox{background:#fff;border:2px solid var(--line);color:#102016}.miniGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.miniCard{background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:12px;text-align:center}.miniCard b{display:block;font-size:22px;color:var(--green)}.modalActions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}.hidden{display:none!important}@media(max-width:760px){.app{padding:12px}.logo{font-size:22px}.intro h1{font-size:28px}.scene{padding:18px}.title{font-size:23px}.sentence{font-size:20px}.jp{font-size:15px}.choose{grid-template-columns:repeat(2,1fr)}.choice{font-size:14px;min-height:58px}.footer{position:sticky;bottom:0;background:linear-gradient(transparent,var(--bg) 25%);padding-top:14px}.modal{border-radius:24px;padding:16px}.feedback{font-size:28px}.miniGrid{grid-template-columns:1fr}.reflectBtns{grid-template-columns:1fr}}
 </style></head>
-<body><div class="app"><header class="header"><div class="logo">🌏 CLES Word World<small>v1.0.0 / Updated: 2026-07-09 / First Student Edition</small></div><div class="pill" id="counter">Level2</div></header><main class="main"><section class="intro" id="intro"><h1>Level2<br>Reading Structure</h1>
-      <p><b>Version 1.0.0 / Updated: 2026-07-09</b></p>
+<body><div class="app"><header class="header"><div class="logo">🌏 CLES Word World<small>v1.0.2 / Updated: 2026-07-12 / First Student Edition</small></div><div class="pill" id="counter">Level2</div></header><main class="main"><section class="intro" id="intro"><h1>Level2<br>Reading Structure</h1>
+      <p><b>Version 1.0.0 / Updated: 2026-07-12</b></p>
       <div class="note">
         CLESは、英語を日本語へ訳す教材ではありません。<br>
         英文を見たときに、<b>「この文は何をしているのか」</b>を構造で読むトレーニングです。
@@ -28,8 +28,11 @@
       <button class="startBtn" id="start">START</button></section><section class="scene hidden" id="game"><div class="meta"><div class="theme" id="theme">🌍 Scene</div><div class="badges" id="badges"></div></div><h1 class="title" id="title"></h1><div class="prompt"><div class="sentence" id="sentence"></div><div class="jp" id="jp"></div></div></section><div class="questionTitle hidden" id="questionTitle">この英文は、どの読み方が一番近い？</div><section class="choose hidden" id="choices"></section><section class="timer hidden" id="timerBox"><div class="timerTop"><span>認識時間</span><span><b id="remain">10.0</b> 秒</span></div><div class="barOut"><div class="bar" id="bar"></div></div></section></main><footer class="footer"><button class="secondary" id="prev">前へ</button><div class="logbar"><div class="stats" id="stats">ログ 0問</div><button class="logbtn" id="shuffle">新10問</button><button class="logbtn" id="endSession">ここまで</button><button class="logbtn" id="exportCsv">CSV</button><button class="logbtn" id="exportJson">JSON</button><button class="logbtn" id="clearLogs">消去</button></div><button class="primary" id="next">次へ</button></footer></div>
 <div class="overlay" id="overlay"><div class="modal"><div class="feedback" id="feedback"></div><div class="structure"><div class="symbol" id="symbol"></div><div class="compare"><div class="node" id="before"></div><div class="arrow" id="arrow"></div><div class="node" id="after"></div></div><div class="reveal" id="reveal"></div></div><div class="supportBox"><div class="supportEn" id="supportEn"></div><div class="supportJa" id="supportJa"></div></div><div class="aha" id="aha"></div><div class="learnBox"><div class="learnTitle">あなたの読み方</div><div id="learnText"></div></div><div class="reflectionBox"><div>今回の理解は？</div><div class="reflectBtns"><button class="reflectBtn" data-reflect="clear">少し見えてきた</button><button class="reflectBtn" data-reflect="hard">まだ難しい</button></div></div><div class="summaryBox hidden" id="dailySummary"><div class="learnTitle">今日の結果</div><div class="miniGrid"><div class="miniCard">計画達成率<b id="planRate">--%</b></div><div class="miniCard">理解度<b id="masteryRate">--%</b></div><div class="miniCard">計画との差<b id="gapRate">--%</b></div></div><div id="nextAdvice" style="margin-top:10px"></div></div><div class="modalActions"><button class="secondary" id="close">もう一度見る</button><button class="primary" id="modalNext">次へ</button></div></div></div>
 <script>
-let DATA,items=[],groups=[],idx=0,logs=[],timer=null,t0=0,limit=10,order=[],sessionOrder=[],sessionPos=0,sessionSize=10,sessionId='';const E=x=>document.getElementById(x);
-fetch('data.json',{cache:'no-store'}).then(r=>r.json()).then(d=>{DATA=d;items=d.items;groups=d.groups;idx=+localStorage.clesv1idx||0;logs=JSON.parse(localStorage.clesv1logs||'[]');order=JSON.parse(localStorage.clesv1order||'null')||makeOrder(items.length);sessionOrder=JSON.parse(localStorage.clesv1sessionOrder||'null')||[];sessionPos=+localStorage.clesv1sessionPos||0;sessionId=localStorage.clesv1activeSession||('S'+Date.now());localStorage.clesv1activeSession=sessionId;if(!sessionOrder.length||sessionPos>=sessionOrder.length){startNewSession(false)}bind();updateStats();});
+let DATA,items=[],groups=[],idx=0,logs=[],timer=null,t0=0,limit=10,order=[],sessionOrder=[],sessionPos=0,sessionSize=10,sessionId='',modalMode='answer',transitionLock=false,lastWeak=localStorage.clesv1lastWeak||'';const E=x=>document.getElementById(x);
+fetch('data.json',{cache:'no-store'}).then(r=>r.json()).then(d=>{DATA=d;items=d.items;groups=d.groups;idx=+localStorage.clesv1idx||0;logs=JSON.parse(localStorage.clesv1logs||'[]');order=JSON.parse(localStorage.clesv1order||'null')||makeOrder(items.length);sessionOrder=JSON.parse(localStorage.clesv1sessionOrder||'null')||[];sessionPos=+localStorage.clesv1sessionPos||0;sessionId=localStorage.clesv1activeSession||('S'+Date.now());localStorage.clesv1activeSession=sessionId;if(!Array.isArray(sessionOrder)||sessionOrder.length!==sessionSize||sessionPos<0||sessionPos>=sessionSize){
+  startNewSession(false);
+}
+bind();updateStats();});
 function bind(){E('start').onclick=()=>{E('intro').classList.add('hidden');E('game').classList.remove('hidden');E('choices').classList.remove('hidden');E('timerBox').classList.remove('hidden');E('questionTitle').classList.remove('hidden');render()};E('next').onclick=next;E('modalNext').onclick=next;E('prev').onclick=()=>{if(sessionPos>0){sessionPos--;idx=sessionOrder[sessionPos]||0;save();render()}else{showInterruptedReview()}};E('close').onclick=()=>E('overlay').classList.remove('show');E('shuffle').onclick=reshuffle;E('endSession').onclick=showInterruptedReview;E('exportCsv').onclick=exportCsv;E('exportJson').onclick=exportJson;E('clearLogs').onclick=()=>{if(confirm('ログを消去しますか？')){logs=[];save();updateStats();}};document.querySelectorAll('.reflectBtn').forEach(b=>b.onclick=()=>{document.querySelectorAll('.reflectBtn').forEach(x=>x.classList.remove('selected'));b.classList.add('selected');const last=logs[logs.length-1];if(last){last.reflection=b.dataset.reflect;save();updateStats();}})}
 function typeStats(){
  const st={};
@@ -58,7 +61,7 @@ function makeOrder(n){
      if(x.it.type===lastType)score-=80;
      if(x.it.chunk===lastChunk)score-=70;
      if(x.it.theme===lastTheme)score-=35;
-     score+=Math.random()*20;
+     if(lastWeak&&x.it.type===lastWeak)score+=22;score+=Math.random()*20;
      return {...x,score};
    }).sort((a,b)=>b.score-a.score);
    const pick=candidates[0];
@@ -72,14 +75,19 @@ function startNewSession(forceRender){
  order=makeOrder(items.length);
  sessionOrder=order.slice(0,Math.min(sessionSize,order.length));
  sessionPos=0;
+ idx=sessionOrder[0]||0;
  sessionId='S'+Date.now();
+ modalMode='answer';
+ transitionLock=false;
  localStorage.clesv1activeSession=sessionId;
  save();
+ E('overlay').classList.remove('show');
+ E('modalNext').textContent='次へ';
  if(forceRender)render();
 }
-function reshuffle(){startNewSession(true)}function save(){localStorage.clesv1idx=idx;localStorage.clesv1logs=JSON.stringify(logs);localStorage.clesv1order=JSON.stringify(order);localStorage.clesv1sessionOrder=JSON.stringify(sessionOrder);localStorage.clesv1sessionPos=sessionPos;localStorage.clesv1activeSession=sessionId}function current(){if(!sessionOrder.length)startNewSession(false);return items[sessionOrder[sessionPos%sessionOrder.length]]}
+function reshuffle(){startNewSession(true)}function save(){localStorage.clesv1idx=idx;localStorage.clesv1logs=JSON.stringify(logs);localStorage.clesv1order=JSON.stringify(order);localStorage.clesv1sessionOrder=JSON.stringify(sessionOrder);localStorage.clesv1sessionPos=sessionPos;localStorage.clesv1activeSession=sessionId;localStorage.clesv1lastWeak=lastWeak||''}function current(){if(!sessionOrder.length)startNewSession(false);return items[sessionOrder[sessionPos%sessionOrder.length]]}
 function h(s,c){if(!c)return s;const esc=c.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');return s.replace(new RegExp(esc,'i'),m=>'<span class="chunk">'+m+'</span>')}
-function render(){const it=current();E('overlay').classList.remove('show');E('counter').textContent=(sessionPos+1)+'/'+sessionOrder.length;E('theme').textContent='🌍 '+it.theme;E('badges').innerHTML='<span>'+it.id+'</span><span>'+it.chunk+'</span>';E('title').textContent=it.title;E('sentence').innerHTML=h(it.sentence,it.chunk);E('jp').textContent=it.jp;drawChoices();updateStats();startTimer()}
+function render(){modalMode='answer';transitionLock=false;E('modalNext').textContent='次へ';const it=current();E('overlay').classList.remove('show');E('counter').textContent=(sessionPos+1)+'/'+sessionOrder.length;E('theme').textContent='🌍 '+it.theme;E('badges').innerHTML='<span>'+it.id+'</span><span>'+it.chunk+'</span>';E('title').textContent=it.title;E('sentence').innerHTML=h(it.sentence,it.chunk);E('jp').textContent=it.jp;drawChoices();updateStats();startTimer()}
 function drawChoices(){E('choices').innerHTML='';groups.forEach(g=>{const b=document.createElement('button');b.className='choice '+g.class;b.innerHTML='<b>'+g.label+'</b><small>'+g.id+'</small>';b.onclick=()=>answer(g.id,b);E('choices').appendChild(b)})}
 function startTimer(){if(timer)clearInterval(timer);limit=10;t0=Date.now();E('remain').textContent=limit.toFixed(1);E('bar').style.width='100%';E('bar').style.background='var(--orange)';timer=setInterval(()=>{const s=(Date.now()-t0)/1000,r=Math.max(0,limit-s),p=Math.max(0,r/limit*100);E('remain').textContent=r.toFixed(1);E('bar').style.width=p+'%';E('bar').style.background=p>50?'#fb7c13':p>20?'#facc15':'#ef4444';if(r<=0)clearInterval(timer)},100)}
 function elapsed(){const s=(Date.now()-t0)/1000;if(timer)clearInterval(timer);return +s.toFixed(2)}function labelOf(id){const g=groups.find(x=>x.id===id);return g?g.label:id}
@@ -108,15 +116,34 @@ function speedComment(m){
  return 'スピード評価：要復習です。特に速く間違えた場合は「分かったつもり」に注意です。3秒だけ根拠を確認しましょう。';
 }
 function answer(ans,btn){const it=current(),t=elapsed(),ok=ans===it.type,mastery=calcMastery(ok,t);[...E('choices').children].forEach(b=>{b.disabled=true;if(b.innerHTML.includes('<small>'+it.type+'</small>'))b.classList.add('correctAnswer')});btn.classList.add(ok?'correct':'wrong');const log={ts:new Date().toISOString(),session_id:sessionId,item_index:idx+1,item_id:it.id,type:it.type,theme:it.theme,title:it.title,chunk:it.chunk,answer:ans,correct_answer:it.type,ok:ok,time_sec:t,timeout:t>limit,mastery_score:mastery,sentence:it.sentence,jp:it.jp,feedback:feedbackFor(it.type,ans,it)};logs.push(log);save();showModal(ok,ans,mastery);updateStats()}
-function showModal(ok,ans,mastery){const it=current();document.querySelectorAll('.reflectBtn').forEach(x=>x.classList.remove('selected'));E('feedback').className='feedback '+(ok?'ok':'ng');E('feedback').textContent=ok?'正解！':'惜しい！';E('symbol').textContent=it.symbol;E('before').textContent=it.before;E('after').textContent=it.after;E('arrow').textContent=it.type==='VS'?'⇔':'→';E('reveal').textContent=it.reveal;E('supportEn').textContent=it.sentence;E('supportJa').textContent='日本語：'+it.jp;E('aha').textContent=ok?it.aha:'正解は「'+labelOf(it.type)+'」です。';E('learnText').innerHTML=feedbackFor(it.type,ans,it)+'<br><br>'+speedComment(mastery);updateDailySummary();E('overlay').classList.add('show')}
+function showModal(ok,ans,mastery){modalMode='answer';E('modalNext').textContent='次へ';const it=current();document.querySelectorAll('.reflectBtn').forEach(x=>x.classList.remove('selected'));E('feedback').className='feedback '+(ok?'ok':'ng');E('feedback').textContent=ok?'正解！':'惜しい！';E('symbol').textContent=it.symbol;E('before').textContent=it.before;E('after').textContent=it.after;E('arrow').textContent=it.type==='VS'?'⇔':'→';E('reveal').textContent=it.reveal;E('supportEn').textContent=it.sentence;E('supportJa').textContent='日本語：'+it.jp;E('aha').textContent=ok?it.aha:'正解は「'+labelOf(it.type)+'」です。';E('learnText').innerHTML=feedbackFor(it.type,ans,it)+'<br><br>'+speedComment(mastery);updateDailySummary();E('overlay').classList.add('show');transitionLock=false}
 function getSessionId(){let s=localStorage.clesv1session;if(!s){s='S'+Date.now();localStorage.clesv1session=s}return s}function next(){
- if(sessionPos+1>=sessionOrder.length){showSessionReview();return;}
+ if(transitionLock)return;
+ transitionLock=true;
+
+ if(modalMode==='review'){
+   startNewSession(true);
+   return;
+ }
+
+ E('overlay').classList.remove('show');
+
+ const answered=currentSessionLogs().length;
+ const atLastQuestion=sessionPos>=sessionSize-1;
+
+ if(answered>=sessionSize || atLastQuestion){
+   showSessionReview();
+   return;
+ }
+
  sessionPos++;
  idx=sessionOrder[sessionPos]||0;
+ modalMode='answer';
  save();
  render();
+ transitionLock=false;
 }function todayLogs(){const d=new Date().toISOString().slice(0,10);return logs.filter(x=>(x.ts||'').slice(0,10)===d)}
-function currentSessionLogs(){return logs.filter(x=>x.session_id===sessionId);}
+function currentSessionLogs(){return logs.filter(x=>x.session_id===sessionId).slice(0,sessionSize);}
 function sessionSummary(interrupted){
  const sl=currentSessionLogs(), n=sl.length, ok=sl.filter(x=>x.ok).length;
  const avg=n?Math.round(sl.reduce((a,b)=>a+(+b.time_sec||0),0)/n*10)/10:0;
@@ -128,7 +155,7 @@ function sessionSummary(interrupted){
 function showSessionReview(){showReviewModal(false)}
 function showInterruptedReview(){showReviewModal(true)}
 function showReviewModal(interrupted){
- const s=sessionSummary(interrupted);
+ const s=sessionSummary(interrupted);modalMode='review';transitionLock=false;lastWeak=s.weak||lastWeak;save();E('modalNext').textContent='次の10問へ';
  E('overlay').classList.add('show');
  E('feedback').className='feedback '+(s.accuracy>=60?'ok':'ng');
  E('feedback').textContent=interrupted?'今日はここまで':'10問完了！';
@@ -142,6 +169,8 @@ function showReviewModal(interrupted){
  E('aha').textContent=sessionSpeedMessage(s);
  E('learnText').innerHTML=buildSessionTeacherComment(s);
  updateDailySummary();
+ E('overlay').classList.add('show');
+ transitionLock=false;
 }
 function sessionSpeedMessage(s){
  const sl=currentSessionLogs();
