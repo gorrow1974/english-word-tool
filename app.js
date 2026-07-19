@@ -1,4 +1,4 @@
-const APP_VERSION='1.4.0',QUESTION_BANK_VERSION='cles-v1-50-final',PROFILE_KEY='cles.activeProfile.v1',PROFILE_SET_KEY='cles.profileConfigured.v1',NAME_KEY='cles.learnerName.v1';let DATA,WEEKLY,TODAY,allItems=[],groups=[],currentPack=[],currentIndex=0,currentWeekId='',answerLocked=false,timer,t0=0,limit=10,activeProfile=localStorage.getItem(PROFILE_KEY)||'';const E=id=>document.getElementById(id);
+const APP_VERSION='1.4.1',QUESTION_BANK_VERSION='cles-v1-50-final',PROFILE_KEY='cles.activeProfile.v1',PROFILE_SET_KEY='cles.profileConfigured.v1',NAME_KEY='cles.learnerName.v1';let pendingSettingsProfile='';let DATA,WEEKLY,TODAY,allItems=[],groups=[],currentPack=[],currentIndex=0,currentWeekId='',answerLocked=false,timer,t0=0,limit=10,activeProfile=localStorage.getItem(PROFILE_KEY)||'';const E=id=>document.getElementById(id);
 async function boot(){[DATA,WEEKLY,TODAY]=await Promise.all([fetch('data.json',{cache:'no-store'}).then(r=>r.json()),fetch('weekly.json',{cache:'no-store'}).then(r=>r.json()),fetch('today.json',{cache:'no-store'}).then(r=>r.json()).catch(()=>({days:{},default:{}}))]);allItems=DATA.items||[];groups=DATA.groups||[];bind();ensureProfileSelected();syncProfileUI();renderToday();renderWeeks();renderProgress();renderReview()}
 function bind(){
  document.querySelectorAll('[data-screen]').forEach(b=>b.onclick=()=>showScreen(b.dataset.screen));
@@ -9,16 +9,70 @@ function bind(){
  document.querySelectorAll('[data-gate-profile]').forEach(b=>b.onclick=()=>completeInitialProfile(b.dataset.gateProfile));
 }
 function setProfile(p){activeProfile=p;localStorage.setItem(PROFILE_KEY,p);syncProfileUI();renderProgress();renderReview()}
-function syncProfileUI(){let l=activeProfile==='learner';E('activeUserChip').textContent=l?'次男坊':'ごろーさん';E('modeChip').textContent=l?'Learning':'Developer Test';document.querySelectorAll('[data-profile]').forEach(b=>b.classList.toggle('active',b.dataset.profile===activeProfile))}
+function syncProfileUI(){
+ const learner=activeProfile==='learner';
+ const learnerName=(localStorage.getItem(NAME_KEY)||'学習者').trim()||'学習者';
+ E('activeUserChip').textContent=learner?learnerName:'管理者';
+ E('modeChip').textContent=learner?'学習者モード':'管理・確認モード';
+ document.querySelectorAll('[data-settings-profile]').forEach(b=>b.classList.toggle('active',b.dataset.settingsProfile===activeProfile));
+}
 function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));E(id).classList.add('active');if(id==='progressScreen')renderProgress();if(id==='reviewScreen')renderReview();if(id==='reviewQueueScreen')renderQueue()}
 function logs(){return (CLESStorage.load().logs||[])}function learnerLogs(){return logs().filter(l=>l.user_profile?l.user_profile==='learner':(l.mode!=='test'&&l.app_mode!=='test'))}
+function ensureProfileSelected(){
+ const configured=localStorage.getItem(PROFILE_SET_KEY)==='true';
+ const valid=activeProfile==='learner'||activeProfile==='developer';
+ if(!configured||!valid){
+   E('roleGate').classList.add('show');
+ }else{
+   E('roleGate').classList.remove('show');
+ }
+}
+function completeInitialProfile(profile){
+ if(profile!=='learner'&&profile!=='developer')return;
+ activeProfile=profile;
+ localStorage.setItem(PROFILE_KEY,profile);
+ localStorage.setItem(PROFILE_SET_KEY,'true');
+ if(!localStorage.getItem(NAME_KEY))localStorage.setItem(NAME_KEY,'学習者');
+ E('roleGate').classList.remove('show');
+ syncProfileUI();
+ renderProgress();
+ renderReview();
+}
+function loadSettingsForm(){
+ pendingSettingsProfile=activeProfile||'learner';
+ E('learnerName').value=localStorage.getItem(NAME_KEY)||'学習者';
+ document.querySelectorAll('[data-settings-profile]').forEach(b=>b.classList.toggle('active',b.dataset.settingsProfile===pendingSettingsProfile));
+}
+function selectSettingsProfile(profile){
+ if(profile!=='learner'&&profile!=='developer')return;
+ pendingSettingsProfile=profile;
+ document.querySelectorAll('[data-settings-profile]').forEach(b=>b.classList.toggle('active',b.dataset.settingsProfile===profile));
+}
+function saveSettings(){
+ const name=(E('learnerName').value||'学習者').trim()||'学習者';
+ const profile=pendingSettingsProfile||activeProfile||'learner';
+ localStorage.setItem(NAME_KEY,name);
+ localStorage.setItem(PROFILE_KEY,profile);
+ localStorage.setItem(PROFILE_SET_KEY,'true');
+ activeProfile=profile;
+ syncProfileUI();
+ renderProgress();
+ renderReview();
+ showScreen('homeScreen');
+ alert('設定を保存しました。');
+}
 function renderToday(){
   const now=new Date();
   const key=String(now.getMonth()+1).padStart(2,'0')+'-'+String(now.getDate()).padStart(2,'0');
-  const d=(TODAY&&TODAY.days&&TODAY.days[key])||(TODAY&&TODAY.default)||{};
-  E('todayTitle').textContent=d.title||'今日は、新しい構造を一つ見つける日。';
-  E('todayMessage').textContent=d.message||'';
-  E('todayClesMessage').textContent=d.cles_message||'';
+  const fallback={
+    title:'今日は、新しい構造を一つ見つける日。',
+    message:'正解を急ぐより、英文全体が何をしているかを一度見渡してみよう。',
+    cles_message:'今日も10問。速く、でも決めつけずに。'
+  };
+  const d=(TODAY&&TODAY.days&&TODAY.days[key])||(TODAY&&TODAY.default)||fallback;
+  E('todayTitle').textContent=d.title||fallback.title;
+  E('todayMessage').textContent=d.message||fallback.message;
+  E('todayClesMessage').textContent=d.cles_message||fallback.cles_message;
 }
 
 function renderWeeks(){let g=E('weekGrid');g.innerHTML='';WEEKLY.weeks.forEach(w=>{let c=document.createElement('div');c.className='card';c.innerHTML=`<h3>${w.label}: ${w.title}</h3><div class="small">${w.item_ids.length}問 / 学習ログ ${learnerLogs().filter(l=>l.week_id===w.id).length}件</div><div class="weekActions"><button class="btn primary">開始</button><button class="btn outline">復習</button></div>`;let b=c.querySelectorAll('button');b[0].onclick=()=>startWeek(w.id,false);b[1].onclick=()=>startWeek(w.id,true);g.appendChild(c)})}
@@ -40,4 +94,4 @@ function renderProgress(){let l=learnerLogs(),a=aggregate(l);E('statsGrid').inne
 function renderReview(src){let l=src&&src.length?src:learnerLogs().slice(-10),a=aggregate(l),by={};groups.forEach(g=>{let q=l.filter(x=>(x.correct_answer||x.type)===g.id);if(q.length)by[g.id]=aggregate(q)});let weak=Object.entries(by).sort((x,y)=>(x[1].accuracy+x[1].mastery)-(y[1].accuracy+y[1].mastery))[0],strong=Object.entries(by).sort((x,y)=>(y[1].accuracy+y[1].mastery)-(x[1].accuracy+x[1].mastery))[0];if(!l.length){E('reviewText').innerHTML='まだ学習ログがありません。今週号を10問だけ試してみましょう。';E('reviewWarning').innerHTML='管理・確認モードのログは学習レビューに入りません。';return}E('reviewText').innerHTML=`<b>直近${l.length}問のレビュー</b><br><br>正答率：${a.accuracy}%<br>理解度：${a.mastery}%<br>平均回答時間：${a.avg}秒<br><br>${strong?`得意：${label(strong[0])}<br>`:''}${weak?`次に見るポイント：${label(weak[0])}<br><br>`:''}${a.fastWrong?'速く間違えた問題があります。根拠を一つ確認しましょう。':'速さと正確さのバランスを確認しましょう。'}`;E('reviewWarning').innerHTML=`<b>次の10問への反映</b><br>${weak?label(weak[0])+'を少し多めにします。':''} 同じ型やキーワードばかりにはしません。`}
 function renderQueue(){let t=Object.entries(weakTypes()).sort((a,b)=>b[1]-a[1]).slice(0,3);E('queueDescription').innerHTML=t.length?`現在の重点：${t.map(x=>label(x[0])).join(' / ')}。同じFunctionの別表現を混ぜます。`:'まずは今週号を解いてください。'}
 function getDeviceInfo(){let ua=navigator.userAgent||'',os=/Android/i.test(ua)?'Android':(/iPhone|iPad|iPod/i.test(ua)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))?'iOS/iPadOS':/Windows/i.test(ua)?'Windows':/Macintosh|Mac OS X/i.test(ua)?'macOS':'Other',browser=/Edg/i.test(ua)?'Edge':/CriOS|Chrome/i.test(ua)?'Chrome':/Safari/i.test(ua)?'Safari':'Other';return{device_id:getDeviceId(),os,browser,user_agent:ua,screen:`${screen.width}x${screen.height}`,touch_points:navigator.maxTouchPoints||0}}
-function getDeviceId(){let id=localStorage.getItem('cles.deviceId.v1');if(!id){id='dev_'+Math.random().toString(36).slice(2)+Date.now().toString(36);localStorage.setItem('cles.deviceId.v1',id)}return id}boot();
+function getDeviceId(){let id=localStorage.getItem('cles.deviceId.v1');if(!id){id='dev_'+Math.random().toString(36).slice(2)+Date.now().toString(36);localStorage.setItem('cles.deviceId.v1',id)}return id}boot().catch(err=>{console.error(err);const t=E('todayTitle');if(t)t.textContent='今日は、新しい構造を一つ見つける日。';const m=E('todayMessage');if(m)m.textContent='データを読み込めませんでした。ページを再読み込みしてください。';});
