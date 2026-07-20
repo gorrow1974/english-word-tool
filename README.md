@@ -1,15 +1,38 @@
-# CLES Word World v1.3.0
+# CLES Word World v1.4.1
 
-Updated: 2026-07-17
+Updated: 2026-07-19
 
-## Added
-- Default header image support
-- Weekly header-image configuration in weekly.json
-- Automatic “今日はこんな日” card from today.json
-- Fallback CLES message for dates without registered content
-- Header title: 一問たったの3秒で！毎日10問30秒を目指して頭の中を構造化しよう！
+## Bug fixes
+- 設定画面が開かない不具合を修正
+- 初回の学習者／管理者選択を実装
+- 設定からモードと表示名を変更可能
+- 「今日はこんな日」が読み込み中のままになる不具合を修正
+- today.json未登録日には既定文を表示
+- 既定ヘッダー画像をトップに表示
+- 会話上の個人的呼称を製品UIから削除
+- 学習者ログと管理・確認ログの分離を維持
 
-## Edit
-- Replace assets/header/default.jpeg to change the shared default image.
-- Edit weekly.json to set a different image/subtitle for each week.
-- Edit today.json to add date-specific content using MM-DD keys.
+## Deploy
+ZIP内の全ファイル・フォルダをリポジトリ直下へ上書きしてください。
+Safariで古い表示が残る場合は、ページを再読み込みしてください。
+
+## v1.4.2 — 2026-07-19
+
+- `today.json` を他データと独立して読み込み
+- 日本時間で「今日はこんな日」を判定
+- 読み込み失敗時も必ず既定メッセージを表示
+- JSON読込失敗がトップ・設定・ログへ連鎖しない構造に変更
+- 設定画面にログ件数を表示
+- 学習データのバックアップ／復元を追加
+- 学習ログと管理・確認ログを個別に消去可能
+- 設定変更後も保存済みログを維持
+
+## v1.5.0 — Archive First / 2026-07-20
+
+- 通常設定から削除操作を除外
+- バックアップ、復元、アーカイブ、ログ統計を前面表示
+- アーカイブJSONに期間名と集計情報を保存
+- 管理・確認ログは学習レビューから除外
+- 削除操作は詳細設定へ移動
+- 学習ログ初期化は確認ダイアログとDELETE入力を必須化
+- 保存スキーマ `cles.userdata.v1` を維持
